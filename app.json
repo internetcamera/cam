@@ -3,7 +3,7 @@
     "name": "Cam",
     "slug": "cam",
     "owner": "gimmix",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -19,7 +19,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "camera.internet.cam"
+      "bundleIdentifier": "camera.internet.cam",
+      "buildNumber": "7"
     },
     "plugins": ["sentry-expo"],
     "hooks": {
