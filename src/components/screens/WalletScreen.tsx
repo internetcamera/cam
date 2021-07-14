@@ -119,7 +119,6 @@ const WalletScreen = () => {
   //   );
   // };
 
-  if (!data) return null;
   return (
     <FlatList
       data={data}
@@ -145,7 +144,10 @@ const WalletScreen = () => {
         />
       )}
       numColumns={2}
-      contentContainerStyle={{ paddingHorizontal: 10, paddingBottom: 80 }}
+      contentContainerStyle={{
+        paddingHorizontal: 10,
+        paddingBottom: 80
+      }}
       ListHeaderComponent={() => (
         <>
           {account && (
