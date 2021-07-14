@@ -34,7 +34,6 @@ const PhotoScreen = () => {
         }}
       />
       <View style={styles.meta}>
-        <Text style={styles.name}>{photo.name}</Text>
         <Text style={styles.description}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non
           mauris sit amet augue varius vulputate vitae vitae neque. Quisque
@@ -53,36 +52,39 @@ const PhotoScreen = () => {
 
       <View style={styles.buttons}>
         <Button
-          text="Internet Camera Explorer"
+          text="Open in Internet Camera Explorer ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
               `https://website-internet-camera.vercel.app/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
-          gradient={['#5358D1', '#2328A1']}
+          style={{ justifyContent: 'flex-start', padding: 15 }}
+          gradient={['#5358D1', '#5358D1']}
         />
         <View style={{ height: 10 }} />
         <Button
-          text="OpenSea"
-          onPress={() => {
-            WebBrowser.openBrowserAsync(
-              `https://testnets.opensea.io/assets/mumbai/${InternetCameraAddresses[80001].camera}/${photo.id}`,
-              { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
-            );
-          }}
-          gradient={['#4462FE', '#2344F1']}
-        />
-        <View style={{ height: 10 }} />
-        <Button
-          text="PolygonScan"
+          text="Open on PolygonScan ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
               `https://mumbai.polygonscan.com/token/${InternetCameraAddresses[80001].camera}?a=${photo.id}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
-          gradient={['#7444FE', '#5A23F1']}
+          style={{ justifyContent: 'flex-start', padding: 15 }}
+          gradient={['#7444FE', '#7444FE']}
+        />
+        <View style={{ height: 10 }} />
+        <Button
+          text="Open on OpenSea ↗"
+          onPress={() => {
+            WebBrowser.openBrowserAsync(
+              `https://testnets.opensea.io/assets/mumbai/${InternetCameraAddresses[80001].camera}/${photo.id}`,
+              { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
+            );
+          }}
+          style={{ justifyContent: 'flex-start', padding: 15 }}
+          gradient={['#4462FE', '#4462FE']}
         />
       </View>
 
@@ -119,7 +121,10 @@ const styles = StyleSheet.create({
     paddingBottom: 80
   },
   meta: {
-    padding: 15
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#222',
+    marginBottom: 15
   },
   name: {
     fontFamily: 'HelveticaNowBold',
@@ -135,8 +140,8 @@ const styles = StyleSheet.create({
   },
   creator: {
     color: '#fff',
-    fontSize: 12,
-    fontFamily: 'HelveticaNowMicroRegular'
+    fontSize: 14,
+    fontFamily: 'HelveticaNowRegular'
   },
   code: {
     marginHorizontal: 15,
@@ -162,8 +167,11 @@ const styles = StyleSheet.create({
     color: '#ccc'
   },
   buttons: {
-    marginHorizontal: 15,
-    marginBottom: 15
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    paddingBottom: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#222'
   }
 });
 

@@ -82,7 +82,7 @@ const ActivityPreview = ({
         {transferEvent.type == 'PHOTO' ? (
           <CachedImage
             source={{
-              uri: transferEvent.photo?.image?.replace(
+              uri: (transferEvent.photo?.image as string).replace(
                 'ipfs://',
                 'https://ipfs-cdn.internet.camera/ipfs/'
               )

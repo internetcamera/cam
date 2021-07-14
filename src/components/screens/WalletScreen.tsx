@@ -8,7 +8,6 @@ import {
   FlatList,
   Dimensions
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import useWallet from '../../features/useWallet';
 import AddressOrNamePreview from '../previews/AddressOrNamePreview';
 import Button from '../ui/Button';
