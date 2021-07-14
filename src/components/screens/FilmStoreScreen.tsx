@@ -72,10 +72,7 @@ const FilmStoreScreen = () => {
             renderItem={data => <FilmPreview film={data.item} />}
             horizontal
             indicatorStyle="white"
-            contentContainerStyle={{
-              paddingLeft: 15,
-              paddingRight: 5
-            }}
+            contentContainerStyle={{ paddingLeft: 15, paddingRight: 5 }}
             showsHorizontalScrollIndicator={false}
             ListEmptyComponent={<EmptyFilmStoreInlineList />}
           />
@@ -84,13 +81,16 @@ const FilmStoreScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Create a New Film Roll</Text>
         <View style={styles.sectionContent}>
-          <Button text="Personal Film" onPress={() => null} />
+          <Button
+            text="Personal Film"
+            onPress={() => alert('Available soon.')}
+          />
           <View style={{ height: 10 }} />
-          <Button text="Group Film" onPress={() => null} />
+          <Button text="Group Film" onPress={() => alert('Available soon.')} />
           <View style={{ height: 10 }} />
-          <Button text="Event Film" onPress={() => null} />
+          <Button text="Event Film" onPress={() => alert('Available soon.')} />
           <View style={{ height: 10 }} />
-          <Button text="Public Film" onPress={() => null} />
+          <Button text="Public Film" onPress={() => alert('Available soon.')} />
         </View>
       </View>
     </ScrollView>

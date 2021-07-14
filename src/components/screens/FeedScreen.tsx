@@ -9,7 +9,7 @@ import {
 } from '@react-navigation/native';
 import useRefreshing from '../../features/useRefreshing';
 import EmptyPhotoList from '../empty/EmptyPhotoList';
-import useHomeFeed from '../../features/useHomeFeed';
+import useFeed from '../../features/useFeed';
 import useWallet from '../../features/useWallet';
 import { HomeTabsParamList } from '../navigation/HomeStack';
 import useScrollToTop from '../../features/useScrollToTop';
@@ -18,9 +18,7 @@ const FeedScreen = () => {
   const { params } = useRoute<RouteProp<HomeTabsParamList, 'Home'>>();
   const { title, feed } = params;
   const account = useWallet(state => state.account);
-  const { data, refresh, loading } = useHomeFeed(
-    feed == 'home' ? account || undefined : undefined
-  );
+  const { data, refresh, loading } = useFeed(feed, account || undefined);
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   useEffect(() => {
