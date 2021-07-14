@@ -57,7 +57,4 @@ const CachedImage = ({
   );
 };
 
-export default React.memo(
-  CachedImage,
-  (prevProps, newProps) => prevProps.source.uri == newProps.source.uri
-);
+export default CachedImage;

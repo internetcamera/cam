@@ -12,7 +12,7 @@ const getPhotosInWallet = async (address: string) => {
     gql`
       query getWalletPhotos($walletAddress: String!) {
         wallet(id: $walletAddress) {
-          photosOwned {
+          photosOwned(orderBy: createdAt, orderDirection: desc) {
             id
             name
             image

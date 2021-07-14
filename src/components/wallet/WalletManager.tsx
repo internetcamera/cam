@@ -50,10 +50,7 @@ const WalletManager = () => {
         });
       },
       openApp,
-      refreshManager: () => {
-        console.log('refreshing wallet connection');
-        webviewRef.current?.reload();
-      }
+      refreshManager: () => webviewRef.current?.reload()
     });
   }, []);
   const openApp = (app: string, urlSuffix?: string) => {
