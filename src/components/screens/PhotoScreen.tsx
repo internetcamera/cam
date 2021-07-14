@@ -1,24 +1,50 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  ActionSheetIOS
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { AppStackParamsList } from '../../../App';
 import usePhoto from '../../features/usePhoto';
 import Button from '../ui/Button';
+import * as Haptics from 'expo-haptics';
 import * as WebBrowser from 'expo-web-browser';
 import { InternetCameraAddresses } from '@internetcamera/sdk';
 import dayjs from 'dayjs';
 import AddressOrNamePreview from '../previews/AddressOrNamePreview';
 import CachedImage from '../CachedImage';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const PhotoScreen = () => {
   const route = useRoute<RouteProp<AppStackParamsList, 'Photo'>>();
   const navigation = useNavigation();
   const { data: photo } = usePhoto(route.params.tokenId);
+
+  const onSharePress = async () => {
+    if (!photo) return;
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    ActionSheetIOS.showShareActionSheetWithOptions(
+      {
+        url: `https://website-internet-camera.vercel.app/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`
+      },
+      () => null,
+      () => null
+    );
+  };
+
   useEffect(() => {
     if (!photo) return;
     navigation.setOptions({
-      title: `$${photo.film.symbol} – № ${parseInt(`${photo.filmIndex}`) + 1}`
+      title: `${photo.film.symbol} – № ${parseInt(`${photo.filmIndex}`) + 1}`,
+      headerRight: () => (
+        <Pressable onPress={onSharePress}>
+          <MaterialCommunityIcons name="share" size={24} color="white" />
+        </Pressable>
+      )
     });
   }, [photo]);
   if (!photo) return null;
@@ -34,18 +60,28 @@ const PhotoScreen = () => {
         }}
       />
       <View style={styles.meta}>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non
-          mauris sit amet augue varius vulputate vitae vitae neque. Quisque
-          ornare sodales magna, in tincidunt tortor. Integer pretium vel lectus
-          ac pellentesque.
-        </Text>
         <Text style={styles.creator}>
           Posted by{' '}
-          <AddressOrNamePreview
-            address={photo.creator.address}
-            style={styles.creator}
-          />{' '}
+          <Pressable
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              navigation.navigate('Profile', {
+                walletAddress: photo.creator.address
+              });
+            }}
+            style={{ marginBottom: -3 }}
+          >
+            <AddressOrNamePreview
+              address={photo.creator.address}
+              style={[
+                styles.creator,
+                {
+                  fontFamily: 'HelveticaNowBold',
+                  fontSize: 16
+                }
+              ]}
+            />
+          </Pressable>{' '}
           on {dayjs.unix(photo.createdAt).format('MMMM D, YYYY [at] h:mma')}
         </Text>
       </View>
@@ -59,8 +95,12 @@ const PhotoScreen = () => {
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
-          style={{ justifyContent: 'flex-start', padding: 15 }}
-          gradient={['#5358D1', '#5358D1']}
+          style={{
+            justifyContent: 'flex-start',
+            padding: 15,
+            backgroundColor: 'hsl(240, 70%, 40%)'
+          }}
+          textStyle={{ fontFamily: 'HelveticaNowBold' }}
         />
         <View style={{ height: 10 }} />
         <Button
@@ -71,8 +111,12 @@ const PhotoScreen = () => {
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
-          style={{ justifyContent: 'flex-start', padding: 15 }}
-          gradient={['#7444FE', '#7444FE']}
+          style={{
+            justifyContent: 'flex-start',
+            padding: 15,
+            backgroundColor: 'hsl(260, 100%, 50%)'
+          }}
+          textStyle={{ fontFamily: 'HelveticaNowBold' }}
         />
         <View style={{ height: 10 }} />
         <Button
@@ -83,8 +127,12 @@ const PhotoScreen = () => {
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
-          style={{ justifyContent: 'flex-start', padding: 15 }}
-          gradient={['#4462FE', '#4462FE']}
+          style={{
+            justifyContent: 'flex-start',
+            padding: 15,
+            backgroundColor: 'hsl(220, 70%, 55%)'
+          }}
+          textStyle={{ fontFamily: 'HelveticaNowBold' }}
         />
       </View>
 
@@ -122,6 +170,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     padding: 15,
+    paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#222',
     marginBottom: 15

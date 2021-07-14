@@ -18,7 +18,7 @@ const FeedScreen = () => {
   const { params } = useRoute<RouteProp<HomeTabsParamList, 'Home'>>();
   const { title, feed } = params;
   const account = useWallet(state => state.account);
-  const { data, refresh } = useHomeFeed(
+  const { data, refresh, loading } = useHomeFeed(
     feed == 'home' ? account || undefined : undefined
   );
   const navigation = useNavigation();
@@ -30,6 +30,7 @@ const FeedScreen = () => {
   const ref = useRef<FlatList>(null);
   useScrollToTop(ref);
 
+  if (loading) return null;
   return (
     <FlatList
       ref={ref}

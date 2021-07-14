@@ -55,25 +55,35 @@ const FilmRollInfoScreen = () => {
 
       <View style={styles.buttons}>
         <Button
-          text="Internet Camera Explorer"
+          text="Open in Internet Camera Explorer ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
               `https://website-internet-camera.vercel.app/explorer/film/${filmAddress}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
-          gradient={['#5358D1', '#2328A1']}
+          style={{
+            justifyContent: 'flex-start',
+            padding: 15,
+            backgroundColor: 'hsl(240, 70%, 40%)'
+          }}
+          textStyle={{ fontFamily: 'HelveticaNowBold' }}
         />
         <View style={{ height: 10 }} />
         <Button
-          text="PolygonScan"
+          text="Open on PolygonScan  ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
               `https://mumbai.polygonscan.com/token/${filmAddress}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
-          gradient={['#7444FE', '#5A23F1']}
+          style={{
+            justifyContent: 'flex-start',
+            padding: 15,
+            backgroundColor: 'hsl(260, 100%, 50%)'
+          }}
+          textStyle={{ fontFamily: 'HelveticaNowBold' }}
         />
       </View>
 

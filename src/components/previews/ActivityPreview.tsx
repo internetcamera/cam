@@ -124,14 +124,14 @@ const ActivityPreview = ({
           <Text style={styles.text}>
             {toName}{' '}
             {transferEvent.type == 'PHOTO' ? (
-              <>posted a photo to ${transferEvent.photo?.film?.symbol}</>
+              <>posted a photo to {transferEvent.photo?.film?.symbol}</>
             ) : (
               <>
                 got{' '}
                 {parseFloat(
                   formatEther(transferEvent.amount || 0)
                 ).toLocaleString()}{' '}
-                ${transferEvent.film?.symbol}
+                {transferEvent.film?.symbol} Film
               </>
             )}
             .
@@ -144,7 +144,7 @@ const ActivityPreview = ({
                 {parseFloat(
                   formatEther(transferEvent.amount || 0)
                 ).toLocaleString()}{' '}
-                ${transferEvent.film?.symbol}
+                {transferEvent.film?.symbol} Film
               </>
             ) : (
               <>a photo from {transferEvent.photo?.film.symbol}</>

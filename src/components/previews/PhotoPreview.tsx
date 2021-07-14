@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Share,
   Pressable,
   ActionSheetIOS
 } from 'react-native';
@@ -42,9 +41,13 @@ const PhotoPreview = ({
       async buttonIndex => {
         if (buttonIndex === 1) {
           console.log(buttonIndex);
-          Share.share({
-            url: `https://website-internet-camera.vercel.app/explorer/film/${photo.film.id}`
-          });
+          ActionSheetIOS.showShareActionSheetWithOptions(
+            {
+              url: `https://website-internet-camera.vercel.app/explorer/film/${photo.film.id}`
+            },
+            () => null,
+            () => null
+          );
         } else if (buttonIndex === 2) {
           const permission = await MediaLibrary.requestPermissionsAsync();
           if (permission.granted) {
@@ -98,7 +101,7 @@ const PhotoPreview = ({
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             navigation.navigate('FilmRollStack', {
               screen: 'FilmRoll',
-              title: `$${photo.film.symbol}`,
+              title: `${photo.film.symbol}`,
               filmAddress: photo.film.id
             });
           }}
@@ -107,7 +110,7 @@ const PhotoPreview = ({
             state.pressed ? styles.pressed : null
           ]}
         >
-          <Text style={styles.filmName}>${photo.film.symbol}</Text>
+          <Text style={styles.filmName}>{photo.film.symbol}</Text>
           <Text style={styles.filmNumber}>
             № {parseInt(`${photo.filmIndex}`) + 1} of{' '}
             {parseInt(formatEther(photo.film.totalSupply)).toLocaleString()}{' '}
@@ -151,7 +154,10 @@ const PhotoPreview = ({
             >
               <AddressOrNamePreview
                 address={photo.creator.address}
-                style={[styles.date, { color: 'white' }]}
+                style={[
+                  styles.date,
+                  { color: 'white', fontFamily: 'HelveticaNowBold' }
+                ]}
               />
             </Pressable>{' '}
             on {dayjs.unix(photo.createdAt).format('MMMM D [at] h:mma')}
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
-    paddingVertical: 15
+    paddingVertical: 10
   },
   filmName: {
     fontFamily: 'HelveticaNowMicroBold',
@@ -200,9 +206,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   date: {
-    fontFamily: 'HelveticaNowMicroRegular',
+    fontFamily: 'HelveticaNowRegular',
     color: '#777',
-    fontSize: 12,
+    fontSize: 14,
     flexDirection: 'row'
   },
   profilePressable: { marginTop: -2 },

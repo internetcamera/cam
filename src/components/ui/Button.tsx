@@ -5,7 +5,8 @@ import {
   StyleSheet,
   GestureResponderEvent,
   StyleProp,
-  ViewStyle
+  ViewStyle,
+  TextStyle
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -14,7 +15,8 @@ const Button = ({
   text,
   onPress,
   gradient,
-  style
+  style,
+  textStyle
 }: {
   text: string;
   onPress: (
@@ -22,6 +24,7 @@ const Button = ({
   ) => void | undefined | null | Promise<void | undefined | null>;
   gradient?: string[];
   style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }) => {
   const _onPress = (event: GestureResponderEvent) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -37,7 +40,7 @@ const Button = ({
       onPress={_onPress}
     >
       {gradient && <LinearGradient colors={gradient} style={styles.gradient} />}
-      <Text style={styles.text}>{text}</Text>
+      <Text style={[styles.text, textStyle]}>{text}</Text>
     </Pressable>
   );
 };

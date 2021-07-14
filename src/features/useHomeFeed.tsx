@@ -79,7 +79,7 @@ const useHomeFeed = (walletAddress?: string) => {
     refreshInterval: 0,
     dedupingInterval: 60 * 1000
   });
-  return { data, error, refresh };
+  return { data, error, loading: !data && !error, refresh };
 };
 
 export default useHomeFeed;

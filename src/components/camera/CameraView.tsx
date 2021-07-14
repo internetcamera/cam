@@ -325,7 +325,7 @@ const CameraView = ({}) => {
                 ) : posting ? (
                   `Uploading...`
                 ) : (
-                  `Post photo as $${filmRoll?.symbol} – № ${
+                  `Post photo as ${filmRoll?.symbol} – № ${
                     parseInt(`${filmRoll?.used}`) + 1
                   }`
                 )}
