@@ -1,10 +1,13 @@
 {
   "expo": {
     "name": "Cam",
-    "slug": "Cam",
+    "slug": "cam",
+    "owner": "gimmix",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "cam",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -13,20 +16,23 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "camera.internet.cam"
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "plugins": ["sentry-expo"],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "internet-camera",
+            "project": "cam",
+            "authToken": "4ddb3f41a4fc45fa8efb79ba6fcb6876f940d29978b2483b9d62bc9b9fbb3c0a"
+          }
+        }
+      ]
     }
   }
 }
