@@ -6,8 +6,8 @@ const Stack = createNativeStackNavigator();
 
 export type HomeTabsParamList = {
   Home: { title: string; feed: string };
-  YourRolls: { title: string; feed: string };
-  WalletPhotos: { title: string; feed: string };
+  PhotosPosted: { title: string; feed: string };
+  PhotosReceived: { title: string; feed: string };
 };
 
 const Tabs = createMaterialTopTabNavigator<HomeTabsParamList>();
@@ -52,18 +52,18 @@ const HomeTabs = () => {
         }}
       />
       <Tabs.Screen
-        name="YourRolls"
+        name="PhotosPosted"
         component={FeedScreen}
         initialParams={{
-          title: 'Your Rolls',
+          title: 'Photos Posted',
           feed: 'empty'
         }}
       />
       <Tabs.Screen
-        name="WalletPhotos"
+        name="PhotosReceived"
         component={FeedScreen}
         initialParams={{
-          title: 'Photos In Your Wallet',
+          title: 'Photos Received',
           feed: 'empy'
         }}
       />

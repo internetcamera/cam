@@ -16,7 +16,8 @@ import PhotoScreen from './src/components/screens/PhotoScreen';
 import * as Sentry from 'sentry-expo';
 
 Sentry.init({
-  dsn: 'https://81db96318a6848189f13f6474b0e6d60@o919702.ingest.sentry.io/5864063'
+  dsn: 'https://81db96318a6848189f13f6474b0e6d60@o919702.ingest.sentry.io/5864063',
+  enableAutoSessionTracking: true
 });
 
 export type AppStackParamsList = {
