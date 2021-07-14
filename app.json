@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "camera.internet.cam",
-      "buildNumber": "7"
+      "buildNumber": "8"
     },
     "plugins": ["sentry-expo"],
     "hooks": {
