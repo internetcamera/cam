@@ -31,7 +31,7 @@ const FilmPreview = ({
         navigation.navigate('FilmRollStack', {
           screen: 'FilmRoll',
           filmAddress: film.filmAddress,
-          title: `${film.symbol}`
+          title: `{film.symbol}`
         });
       }}
     >
