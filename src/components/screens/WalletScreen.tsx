@@ -144,6 +144,7 @@ const WalletScreen = () => {
         />
       )}
       initialNumToRender={6}
+      removeClippedSubviews={true}
       numColumns={2}
       contentContainerStyle={{
         paddingHorizontal: 10,
