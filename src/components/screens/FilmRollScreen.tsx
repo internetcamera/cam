@@ -109,6 +109,7 @@ const FilmRollScreen = () => {
           paddingBottom: 100,
           paddingTop: 5
         }}
+        removeClippedSubviews={true}
       />
     </View>
   );

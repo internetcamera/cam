@@ -45,6 +45,7 @@ const FeedScreen = () => {
         height: data && data.length > 0 ? 'auto' : '100%',
         paddingBottom: 40
       }}
+      removeClippedSubviews={true}
     />
   );
 };
