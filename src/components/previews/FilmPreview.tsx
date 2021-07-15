@@ -31,13 +31,13 @@ const FilmPreview = ({
         navigation.navigate('FilmRollStack', {
           screen: 'FilmRoll',
           filmAddress: film.filmAddress,
-          title: `{film.symbol}`
+          title: `${film.symbol}`
         });
       }}
     >
       <View>
         <Text style={styles.name}>{film.name}</Text>
-        <Text style={styles.symbol}>${film.symbol}</Text>
+        <Text style={styles.symbol}>{film.symbol}</Text>
 
         {amount ? (
           <Text style={styles.message}>
