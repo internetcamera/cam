@@ -42,6 +42,7 @@ const ProfileScreen = () => {
           tokenId={item.id}
         />
       )}
+      initialNumToRender={6}
       numColumns={2}
       contentContainerStyle={{
         paddingHorizontal: 10,

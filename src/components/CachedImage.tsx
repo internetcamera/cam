@@ -1,6 +1,7 @@
 import React from 'react';
-import { ImageStyle, StyleProp } from 'react-native';
-import { Image } from 'react-native-expo-image-cache';
+
+import { Image, ImageStyle, StyleProp } from 'react-native';
+// import { Image } from 'react-native-expo-image-cache';
 
 const CachedImage = ({
   source,
@@ -14,7 +15,13 @@ const CachedImage = ({
   height?: number;
   style?: StyleProp<ImageStyle>;
 }) => {
-  return <Image uri={source.uri} style={style} {...props} />;
+  return (
+    <Image
+      source={source}
+      style={[{ backgroundColor: '#111' }, style]}
+      {...props}
+    />
+  );
 };
 
 export default CachedImage;

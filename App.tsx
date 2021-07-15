@@ -51,6 +51,7 @@ export default function App() {
   if (!loaded) return null;
   return (
     <PortalProvider>
+      <StatusBar style="light" />
       <WalletManager />
       <NavigationContainer
         linking={linking}
@@ -59,7 +60,6 @@ export default function App() {
           colors: { ...DarkTheme.colors, primary: '#fff' }
         }}
       >
-        <StatusBar style="light" />
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
