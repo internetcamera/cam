@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import { enableScreens } from 'react-native-screens';
 enableScreens();
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import WalletManager from './src/components/wallet/WalletManager';
