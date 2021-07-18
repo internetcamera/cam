@@ -78,7 +78,6 @@ const FilmIntroScreen = () => {
               useOnboardingState.getState().completeOnboarding();
             } catch (err) {
               console.log(err);
-              throw new Error(err);
               useOnboardingState.getState().completeOnboarding();
             }
           }}
