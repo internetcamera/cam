@@ -43,7 +43,7 @@ const PhotoPreview = ({
           console.log(buttonIndex);
           ActionSheetIOS.showShareActionSheetWithOptions(
             {
-              url: `https://website-internet-camera.vercel.app/explorer/film/${photo.film.id}`
+              url: `https://stage.internet.camera/explorer/film/${photo.film.id}`
             },
             () => null,
             () => null

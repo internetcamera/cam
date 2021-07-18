@@ -1,13 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import { Video } from 'expo-av';
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../ui/Button';
 
 const SigningExplainerScreen = () => {
   const navigation = useNavigation();
-
   useEffect(
     () => navigation.setOptions({ gestureEnabled: false }),
     [navigation]
@@ -31,13 +29,10 @@ const SigningExplainerScreen = () => {
         </Text>
         <View style={{ height: 30 }} />
         <View style={styles.videoBackdrop}>
-          <Video
-            source={require('../../../assets/video/onboarding_sign.mp4')}
-            isLooping
-            isMuted
-            shouldPlay
-            resizeMode={Video.RESIZE_MODE_CONTAIN}
+          <Image
+            source={require('../../../assets/gifs/onboarding__signing.gif')}
             style={styles.video}
+            resizeMode="contain"
           />
         </View>
         <View style={{ height: 30 }} />
@@ -76,13 +71,12 @@ const styles = StyleSheet.create({
   videoBackdrop: {
     backgroundColor: 'hsl(260,100%, 50%)',
     padding: 15,
-    borderRadius: 10
+    borderRadius: 10,
+    alignItems: 'center'
   },
   video: {
-    width: '100%',
-    aspectRatio: 1
+    height: 300
   },
-
   message: {
     color: 'white',
     fontFamily: 'HelveticaNowRegular',

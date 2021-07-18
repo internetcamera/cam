@@ -29,7 +29,7 @@ const PhotoScreen = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     ActionSheetIOS.showShareActionSheetWithOptions(
       {
-        url: `https://website-internet-camera.vercel.app/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`
+        url: `https://stage.internet.camera/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`
       },
       () => null,
       () => null
@@ -91,7 +91,7 @@ const PhotoScreen = () => {
           text="Open in Internet Camera Explorer ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
-              `https://website-internet-camera.vercel.app/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`,
+              `https://stage.internet.camera/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}

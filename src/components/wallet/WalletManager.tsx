@@ -75,7 +75,6 @@ const WalletManager = () => {
       <WebView
         ref={webviewRef}
         source={{
-          // uri: 'https://website-internet-camera.vercel.app/utils/rn-wallet'
           uri: 'https://stage.internet.camera/utils/rn-wallet'
         }}
         onMessage={event => {

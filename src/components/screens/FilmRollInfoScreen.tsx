@@ -58,7 +58,7 @@ const FilmRollInfoScreen = () => {
           text="Open in Internet Camera Explorer ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
-              `https://website-internet-camera.vercel.app/explorer/film/${filmAddress}`,
+              `https://stage.internet.camera/explorer/film/${filmAddress}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
