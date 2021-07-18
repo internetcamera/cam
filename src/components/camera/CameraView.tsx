@@ -32,6 +32,8 @@ import useFilmRoll from '../../features/useFilmRoll';
 import { formatEther } from 'ethers/lib/utils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+const ASPECT_RATIO = 0.8;
+
 const CameraView = ({}) => {
   const cameraRef = useRef<Camera>(null);
   const navigation = useNavigation();
@@ -94,8 +96,32 @@ const CameraView = ({}) => {
       base64: true
     });
     if (image.cancelled) return;
-    setPreviewURI(image.uri);
-    setImageSize({ width: image.width, height: image.height });
+    const crop = {
+      originX: 0,
+      originY: 0,
+      width: image.width,
+      height: image.height
+    };
+    const inputWidth = image.width;
+    const inputHeight = image.height;
+    const inputImageAspectRatio = inputWidth / inputHeight;
+    let outputWidth = inputWidth;
+    let outputHeight = inputHeight;
+    if (inputImageAspectRatio > ASPECT_RATIO)
+      outputWidth = inputHeight * ASPECT_RATIO;
+    else if (inputImageAspectRatio < ASPECT_RATIO)
+      outputHeight = inputWidth / ASPECT_RATIO;
+    crop.originX = (outputWidth - inputWidth) * 0.5;
+    crop.originY = (outputHeight - inputHeight) * 0.5;
+    crop.width = outputWidth;
+    crop.height = outputHeight;
+    const edited = await ImageManipulator.manipulateAsync(
+      image.uri,
+      [{ crop }],
+      { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+    );
+    setPreviewURI(edited.uri);
+    setImageSize({ width: edited.width, height: edited.height });
   };
 
   const takePhoto = async () => {
@@ -115,6 +141,7 @@ const CameraView = ({}) => {
         { format: ImageManipulator.SaveFormat.JPEG }
       );
     }
+
     setPreviewURI(image.uri);
     setIsNewPhoto(true);
     setImageSize({ width: image.width, height: image.height });
@@ -241,7 +268,7 @@ const CameraView = ({}) => {
         ) : filmRoll && account && previewURI ? (
           <>
             <View style={styles.previewHeader}>
-              <Text style={styles.filmName}>${filmRoll.symbol}</Text>
+              <Text style={styles.filmName}>{filmRoll.symbol}</Text>
               <Text style={styles.filmNumber}>
                 № {parseInt(`${filmRoll.used}`) + 1} of{' '}
                 {parseFloat(formatEther(filmRoll.totalSupply)).toLocaleString()}
@@ -373,7 +400,7 @@ const styles = StyleSheet.create({
     position: 'relative'
   },
   camera: {
-    aspectRatio: 0.8,
+    aspectRatio: ASPECT_RATIO,
     maxHeight: 700
   },
   footer: {

@@ -17,7 +17,7 @@ const CachedImage = ({
 }) => {
   return (
     <Image
-      uri={source.uri}
+      uri={`${source.uri}.jpg`}
       style={[{ backgroundColor: '#111' }, style]}
       {...props}
     />

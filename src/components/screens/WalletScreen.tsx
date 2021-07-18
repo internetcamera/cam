@@ -25,23 +25,25 @@ const WalletScreen = () => {
   const { data, refresh } = usePhotosInWallet(account || undefined);
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () =>
-        account ? (
-          <Pressable
-            onPress={() => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              navigation.navigate('Settings');
-            }}
-          >
-            <Ionicons name="ios-settings-sharp" size={22} color="#ccc" />
-          </Pressable>
-        ) : null,
+      headerLeft: () => (
+        <Pressable
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            navigation.navigate('Settings');
+          }}
+        >
+          <Ionicons name="ios-settings-sharp" size={22} color="#ccc" />
+        </Pressable>
+      ),
       headerRight: () =>
         account ? (
           <Pressable
-            onPress={() => {
+            onPress={async () => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              useWallet.getState().disconnect?.();
+              do {
+                useWallet.getState().disconnect?.();
+                await new Promise(resolve => setTimeout(resolve, 100));
+              } while (useWallet.getState().account != null);
             }}
           >
             <MaterialCommunityIcons name="exit-to-app" size={24} color="#ccc" />
@@ -56,69 +58,6 @@ const WalletScreen = () => {
   const { refreshControl } = useRefreshing(refresh);
   const ref = useRef<FlatList>(null);
   useScrollToTop(ref);
-
-  // const onLongPressImage = (index: number) => {
-  //   if (!data) throw new Error('data is not defined');
-  //   const photo = data[index];
-  //   console.log(data, index);
-  //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-  //   ActionSheetIOS.showActionSheetWithOptions(
-  //     {
-  //       options: ['Cancel', 'Share', 'Save to iOS Photos', 'Delete'],
-  //       cancelButtonIndex: 0,
-  //       destructiveButtonIndex: 3,
-  //       tintColor: '#fff',
-  //       title: `${photo.film.symbol} – № ${parseInt(`${photo.filmIndex}`) + 1}`
-  //     },
-  //     async buttonIndex => {
-  //       if (buttonIndex === 1) {
-  //         console.log(buttonIndex);
-  //         Share.share({
-  //           url: `https://website-internet-camera.vercel.app/explorer/film/${photo.film.id}`
-  //         });
-  //       } else if (buttonIndex === 2) {
-  //         const permission = await MediaLibrary.requestPermissionsAsync();
-  //         if (permission.granted) {
-  //           const dirInfo = await FileSystem.getInfoAsync(
-  //             FileSystem.cacheDirectory + 'photo/'
-  //           );
-  //           if (!dirInfo.exists) {
-  //             console.log("Directory doesn't exist, creating...");
-  //             await FileSystem.makeDirectoryAsync(
-  //               FileSystem.cacheDirectory + 'photo/',
-  //               {
-  //                 intermediates: true
-  //               }
-  //             );
-  //           }
-  //           await FileSystem.downloadAsync(
-  //             photo.image.replace(
-  //               'ipfs://',
-  //               'https://ipfs-cdn.internet.camera/ipfs/'
-  //             ),
-  //             FileSystem.cacheDirectory +
-  //               'photo/' +
-  //               photo.image.replace('ipfs://', '') +
-  //               '.jpg'
-  //           );
-
-  //           await MediaLibrary.saveToLibraryAsync(
-  //             FileSystem.cacheDirectory +
-  //               'photo/' +
-  //               photo.image.replace('ipfs://', '') +
-  //               '.jpg'
-  //           );
-  //           alert('Saved!');
-  //         } else {
-  //           alert("You don't have permission.");
-  //         }
-  //       } else if (buttonIndex == 3) {
-  //         alert('Available in the next release');
-  //       }
-  //     }
-  //   );
-  // };
-
   return (
     <FlatList
       data={data}
@@ -177,7 +116,6 @@ const WalletScreen = () => {
                       )}`
                     )
                 }
-                gradient={['#4462FE', '#2344F1']}
               />
               <View style={{ height: 15 }} />
               <Button
@@ -192,7 +130,6 @@ const WalletScreen = () => {
                       )}`
                     )
                 }
-                gradient={['#F39200', '#B36013']}
               />
             </View>
           )}
@@ -237,3 +174,65 @@ const styles = StyleSheet.create({
 });
 
 export default WalletScreen;
+
+// const onLongPressImage = (index: number) => {
+//   if (!data) throw new Error('data is not defined');
+//   const photo = data[index];
+//   console.log(data, index);
+//   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+//   ActionSheetIOS.showActionSheetWithOptions(
+//     {
+//       options: ['Cancel', 'Share', 'Save to iOS Photos', 'Delete'],
+//       cancelButtonIndex: 0,
+//       destructiveButtonIndex: 3,
+//       tintColor: '#fff',
+//       title: `${photo.film.symbol} – № ${parseInt(`${photo.filmIndex}`) + 1}`
+//     },
+//     async buttonIndex => {
+//       if (buttonIndex === 1) {
+//         console.log(buttonIndex);
+//         Share.share({
+//           url: `https://website-internet-camera.vercel.app/explorer/film/${photo.film.id}`
+//         });
+//       } else if (buttonIndex === 2) {
+//         const permission = await MediaLibrary.requestPermissionsAsync();
+//         if (permission.granted) {
+//           const dirInfo = await FileSystem.getInfoAsync(
+//             FileSystem.cacheDirectory + 'photo/'
+//           );
+//           if (!dirInfo.exists) {
+//             console.log("Directory doesn't exist, creating...");
+//             await FileSystem.makeDirectoryAsync(
+//               FileSystem.cacheDirectory + 'photo/',
+//               {
+//                 intermediates: true
+//               }
+//             );
+//           }
+//           await FileSystem.downloadAsync(
+//             photo.image.replace(
+//               'ipfs://',
+//               'https://ipfs-cdn.internet.camera/ipfs/'
+//             ),
+//             FileSystem.cacheDirectory +
+//               'photo/' +
+//               photo.image.replace('ipfs://', '') +
+//               '.jpg'
+//           );
+
+//           await MediaLibrary.saveToLibraryAsync(
+//             FileSystem.cacheDirectory +
+//               'photo/' +
+//               photo.image.replace('ipfs://', '') +
+//               '.jpg'
+//           );
+//           alert('Saved!');
+//         } else {
+//           alert("You don't have permission.");
+//         }
+//       } else if (buttonIndex == 3) {
+//         alert('Available in the next release');
+//       }
+//     }
+//   );
+// };

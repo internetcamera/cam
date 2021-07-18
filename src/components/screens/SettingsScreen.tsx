@@ -8,14 +8,13 @@ import {
   Linking,
   Alert
 } from 'react-native';
-import GIMMIX from '../graphics/GIMMIX';
 import { version } from '../../../package.json';
 import * as Haptics from 'expo-haptics';
 import { Switch } from 'react-native-gesture-handler';
 import { useENSStore } from '../../features/useENSNameOrAddress';
-import { CacheManager } from 'react-native-expo-image-cache';
 import { Entypo } from '@expo/vector-icons';
 import * as MailComposer from 'expo-mail-composer';
+import GIMMIXFooter from '../graphics/GIMMIXFooter';
 
 const SettingsScreen = () => {
   return (
@@ -84,7 +83,6 @@ const SettingsScreen = () => {
                         text: 'Yes',
                         onPress: () => {
                           useENSStore.setState({ addressBook: {} }, true);
-                          CacheManager.clearCache();
                           Alert.alert('Success', 'The cache has been cleared.');
                         },
                         style: 'destructive'
@@ -140,7 +138,7 @@ const SettingsScreen = () => {
                 Linking.openURL('https://twitter.com/gimmixorg');
               }}
             >
-              <GIMMIX />
+              <GIMMIXFooter />
             </Pressable>
           </View>
         )}
@@ -188,19 +186,16 @@ const styles = StyleSheet.create({
   },
   footer: {
     alignItems: 'center',
-    marginTop: 50
+    marginTop: 30
   },
   version: {
-    color: 'white',
-    fontFamily: 'HelveticaNowMicroBold',
-    fontSize: 14,
-    lineHeight: 36
+    color: '#ccc',
+    fontFamily: 'HelveticaNowMicroRegular',
+    fontSize: 12,
+    lineHeight: 28
   },
   gimmix: {
-    marginTop: 40,
-    padding: 10,
-    width: 180,
-    height: 40
+    marginTop: 30
   },
   gimmixPressed: {
     transform: [{ scale: 0.9 }]

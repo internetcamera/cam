@@ -50,7 +50,9 @@ const WalletManager = () => {
         });
       },
       openApp,
-      refreshManager: () => webviewRef.current?.reload()
+      refreshManager: () => {
+        webviewRef.current?.reload();
+      }
     });
   }, []);
   const openApp = (app: string, urlSuffix?: string) => {
@@ -73,7 +75,8 @@ const WalletManager = () => {
       <WebView
         ref={webviewRef}
         source={{
-          uri: 'http://website-internet-camera.vercel.app/utils/rn-wallet'
+          // uri: 'https://website-internet-camera.vercel.app/utils/rn-wallet'
+          uri: 'https://stage.internet.camera/utils/rn-wallet'
         }}
         onMessage={event => {
           try {
