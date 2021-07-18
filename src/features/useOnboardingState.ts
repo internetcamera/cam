@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { version } from '../../package.json';
 
-const latestOnboardingRelease = '0.0.8';
+const latestOnboardingRelease = '0.0.9';
 
 export type OnboardingState = {
   initialOnboardingCompleted: boolean;
