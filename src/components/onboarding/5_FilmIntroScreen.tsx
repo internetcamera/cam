@@ -46,7 +46,7 @@ const FilmIntroScreen = () => {
             try {
               const jsonRpcProvider = getJsonRpcProvider();
               const typedData = await getClaimFilmTypedData(
-                '0x2B216d0B5017388d545069d5FB0b00B79413F8a6',
+                '0xD9F0685B3617B3617f38F8573C46Eb0d2a1922d7',
                 account,
                 80001,
                 jsonRpcProvider
