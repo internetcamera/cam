@@ -1688,15 +1688,15 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@internetcamera/contracts@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@internetcamera/contracts/-/contracts-0.0.9.tgz#24942f7491df8c8d89f03689f55e9a16b7b746ae"
-  integrity sha512-Bk5FDXS55MQiSpneezfal4V5A7pTl7amR0qyZprRLVVshNJ2ydNFYIFTnZbgnir2EFl2AY21d5i8za/C/pc61A==
+"@internetcamera/contracts@^0.0.56":
+  version "0.0.56"
+  resolved "https://registry.yarnpkg.com/@internetcamera/contracts/-/contracts-0.0.56.tgz#6e0337509d66e7576cbab599e27371b0772d6f4f"
+  integrity sha512-/Qsfk2xLKFUafuqQArf9qUlnxnyYHKlo/hxc+xpPEHIVXQBPgm1z/bxekbb1kiUccJ1PYGFkmWqoUvC3/bp1hw==
 
-"@internetcamera/sdk@^0.0.51":
-  version "0.0.51"
-  resolved "https://registry.yarnpkg.com/@internetcamera/sdk/-/sdk-0.0.51.tgz#616c58ffae7d4dc1ae93e07ae974964e977d1356"
-  integrity sha512-kIA6Y5TeYcbHfvJ9jOm16K54N2ZBAtijvbxSV+sFlMR3cVBEyGyzP9HLFbczM0lZ9rPCBqML09InmTa7BHGQnQ==
+"@internetcamera/sdk@^0.0.56":
+  version "0.0.56"
+  resolved "https://registry.yarnpkg.com/@internetcamera/sdk/-/sdk-0.0.56.tgz#d4c54467718cef9cf5cf1314f06ed18e34ca34da"
+  integrity sha512-WMUafzsNIQnfXh05xHra7Vd6sKETNzj21Ihh0tNXk2BEx+AcuGTTcLm8bFJfh3OXxmg7QyQ7BPDUI8OLdRL6Dg==
   dependencies:
     "@ethersproject/abstract-signer" "^5.4.0"
     "@ethersproject/address" "^5.4.0"
@@ -1709,7 +1709,7 @@
     "@ethersproject/strings" "^5.4.0"
     "@ethersproject/transactions" "^5.4.0"
     "@ethersproject/units" "^5.4.0"
-    "@internetcamera/contracts" "^0.0.9"
+    "@internetcamera/contracts" "^0.0.56"
     eth-sig-util "^3.0.1"
     graphql "^15.5.1"
     graphql-request "^3.4.0"
