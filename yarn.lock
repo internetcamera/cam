@@ -1693,10 +1693,10 @@
   resolved "https://registry.yarnpkg.com/@internetcamera/contracts/-/contracts-0.0.9.tgz#24942f7491df8c8d89f03689f55e9a16b7b746ae"
   integrity sha512-Bk5FDXS55MQiSpneezfal4V5A7pTl7amR0qyZprRLVVshNJ2ydNFYIFTnZbgnir2EFl2AY21d5i8za/C/pc61A==
 
-"@internetcamera/sdk@^0.0.50":
-  version "0.0.50"
-  resolved "https://registry.yarnpkg.com/@internetcamera/sdk/-/sdk-0.0.50.tgz#119840c803f45f3685f1c1fab7770fb1d4a47d6e"
-  integrity sha512-vHsuruMN+YumP5EcY7X8kQ/KWBqq4FZxQzXjgZDdFIuDFqRJFWHfkYkB4cBZtnm0SOuUXDNBTLcWX4V922cDCw==
+"@internetcamera/sdk@^0.0.51":
+  version "0.0.51"
+  resolved "https://registry.yarnpkg.com/@internetcamera/sdk/-/sdk-0.0.51.tgz#616c58ffae7d4dc1ae93e07ae974964e977d1356"
+  integrity sha512-kIA6Y5TeYcbHfvJ9jOm16K54N2ZBAtijvbxSV+sFlMR3cVBEyGyzP9HLFbczM0lZ9rPCBqML09InmTa7BHGQnQ==
   dependencies:
     "@ethersproject/abstract-signer" "^5.4.0"
     "@ethersproject/address" "^5.4.0"
