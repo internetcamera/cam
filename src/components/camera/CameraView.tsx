@@ -27,7 +27,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import useWallet from '../../features/useWallet';
 import getJsonRpcProvider from '../../features/getJsonRpcProvider';
 import * as Haptics from 'expo-haptics';
-import QRBottomSheet from '../previews/QRBottomSheet';
+import QRBottomSheet from '../sheets/QRBottomSheet';
 import useFilmRoll from '../../features/useFilmRoll';
 import { formatEther } from 'ethers/lib/utils';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

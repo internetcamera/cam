@@ -75,7 +75,7 @@ const WalletManager = () => {
       <WebView
         ref={webviewRef}
         source={{
-          uri: 'https://stage.internet.camera/utils/rn-wallet'
+          uri: 'https://internet.camera/utils/rn-wallet'
         }}
         onMessage={event => {
           try {

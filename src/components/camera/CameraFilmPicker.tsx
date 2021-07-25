@@ -52,7 +52,7 @@ const CameraFilmPicker = ({
           ]}
         >
           <Text style={styles.filmSymbol}>
-            ${data.item.film.symbol} – № {parseInt(data.item.film.used) + 1}
+            {data.item.film.symbol} – № {parseInt(data.item.film.used) + 1}
           </Text>
           <Text style={styles.amount}>
             {parseInt(formatEther(data.item.amount)).toLocaleString()} in wallet

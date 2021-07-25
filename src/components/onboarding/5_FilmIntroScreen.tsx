@@ -1,5 +1,6 @@
 import { getClaimFilmTypedData } from '@internetcamera/sdk/dist/utils/forwarder';
-import React from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import getJsonRpcProvider from '../../features/getJsonRpcProvider';
@@ -9,6 +10,10 @@ import Button from '../ui/Button';
 
 const FilmIntroScreen = () => {
   const account = useWallet(state => state.account);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    useWallet.getState().refreshManager?.();
+  }, [isFocused, account]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
@@ -21,22 +26,27 @@ const FilmIntroScreen = () => {
         <Text style={styles.title}>CAM uses FILM.</Text>
         <Text style={styles.message}>
           Every photo posted using CAM requires using 1 FILM for processing and
-          storage.{'\n'}
-          {'\n'}FILM is a type of virtual token that can be created by anyone
-          for a small, upfront per-photo fee. Just set a title, the amount of
-          FILM available in that roll, some optional customization settings, and
-          it's live. The creator can then keep, use, or distribute their film
-          however they'd like.{'\n'}
-          {'\n'}That includes keeping a personal roll, sharing one with a group
-          of friends, distributing one for use at an event, selling them for a
-          flat fee, selling them on an open exchange, and more.
+          storage.
           {'\n'}
-          {'\n'}FILM comes with a number of customization options, and soon
-          creators of photo filters (postprocessing and AR) will be able to
-          incorporate their filters into rolls of film, allowing them to make
-          money for that work for the first time, instead of giving it to
-          Facebook.{'\n'}
-          {'\n'}No real money is needed while testing.
+          {'\n'}
+          FILM is a type of virtual token that can be created by anyone for a
+          small, upfront per-photo fee. Just set a title, the amount of FILM
+          available in that roll, some optional customization settings, and it's
+          live. The creator can then keep, use, or distribute their film however
+          they'd like.
+          {'\n'}
+          {'\n'}
+          That includes keeping a personal roll, sharing one with a group of
+          friends, distributing one for use at an event, selling them for a flat
+          fee, selling them on an open exchange, and more.
+          {'\n'}
+          {'\n'}
+          FILM comes with a number of customization options, and soon creators
+          of photo filters (postprocessing and AR) will be able to incorporate
+          their filters into rolls of film, allowing them to make money for that
+          work for the first time.
+          {'\n'}
+          No real money is needed while testing.
         </Text>
         <View style={{ height: 15 }} />
         <Button
@@ -54,7 +64,6 @@ const FilmIntroScreen = () => {
               const signTypedData = useWallet.getState().signTypedData;
               if (!signTypedData) throw new Error('Wallet not ready to sign!');
               const signature = await signTypedData(JSON.stringify(typedData));
-
               let response: { hash: string };
               do {
                 response = await fetch(

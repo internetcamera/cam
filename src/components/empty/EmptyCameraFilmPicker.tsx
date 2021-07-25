@@ -1,42 +1,10 @@
-import BottomSheet, { BottomSheetBackgroundProps } from '@gorhom/bottom-sheet';
-import { Portal } from '@gorhom/portal';
-import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, Dimensions } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 const EmptyCameraFilmPicker = () => {
-  const ref = useRef<BottomSheet>(null);
-  const [visible, setVisible] = useState(false);
-  const onPress = () => {
-    setVisible(true);
-    ref.current?.snapTo(1);
-  };
   return (
     <View style={styles.empty}>
-      <Pressable onPress={onPress}>
-        <Text style={styles.emptyText}>You don't have any film</Text>
-      </Pressable>
-      <Portal>
-        <BottomSheet
-          ref={ref}
-          index={0}
-          snapPoints={['0%', '100%']}
-          backgroundComponent={({ style }: BottomSheetBackgroundProps) => (
-            <View style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.9)' }]} />
-          )}
-        >
-          <View style={[styles.bottomSheet, { opacity: visible ? 1 : 0 }]}>
-            <View style={styles.modal}>
-              <MaterialCommunityIcons name="film" size={40} color="#ccc" />
-              <Text style={styles.modalText}>
-                You need film to take photos in CAM.{'\n'}
-                {'\n'}Film is a new digital currency format that can be spent to
-                post a photo.
-              </Text>
-            </View>
-          </View>
-        </BottomSheet>
-      </Portal>
+      <Text style={styles.emptyText}>You don't have any film</Text>
     </View>
   );
 };

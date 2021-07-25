@@ -58,7 +58,7 @@ const FilmRollInfoScreen = () => {
           text="Open in Internet Camera Explorer ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
-              `https://stage.internet.camera/explorer/film/${filmAddress}`,
+              `https://internet.camera/explorer/film/${filmAddress}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}

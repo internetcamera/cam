@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgb(20,20,20)',
+    backgroundColor: 'rgb(15,15,15)',
     width: Dimensions.get('window').width - 30
   },
   emptyText: {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     fontFamily: 'HelveticaNowMicroBold',
     fontSize: 12,
     textTransform: 'uppercase',
-    color: '#aaa'
+    color: '#888'
   }
 });
 
