@@ -15,6 +15,8 @@ import { useENSStore } from '../../features/useENSNameOrAddress';
 import { Entypo } from '@expo/vector-icons';
 import * as MailComposer from 'expo-mail-composer';
 import GIMMIXFooter from '../graphics/GIMMIXFooter';
+import useWallet from '../../features/useWallet';
+import useOnboardingState from '../../features/useOnboardingState';
 
 const SettingsScreen = () => {
   return (
@@ -84,6 +86,36 @@ const SettingsScreen = () => {
                         onPress: () => {
                           useENSStore.setState({ addressBook: {} }, true);
                           Alert.alert('Success', 'The cache has been cleared.');
+                        },
+                        style: 'destructive'
+                      },
+                      {
+                        text: 'No',
+                        style: 'cancel',
+                        onPress: () => {}
+                      }
+                    ]
+                  );
+                }
+              },
+              {
+                type: 'action',
+                title: 'Disconnect and reset app',
+                onPress: () => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  Alert.alert(
+                    'Reset',
+                    'Are you sure you want to disconnect and reset everything?',
+                    [
+                      {
+                        text: 'Yes',
+                        onPress: () => {
+                          useENSStore.setState({ addressBook: {} }, true);
+                          useWallet.getState().disconnect?.();
+                          useOnboardingState.setState({
+                            initialOnboardingCompleted: false,
+                            lastVersionOnboarded: ''
+                          });
                         },
                         style: 'destructive'
                       },

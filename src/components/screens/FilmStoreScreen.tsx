@@ -34,6 +34,9 @@ const FilmStoreScreen = () => {
       }
     }
   `);
+
+  const claimableSymbols = ['OUTSIDE', 'WINDOW'];
+
   const refresh = () => {
     filmInWalletRefresh();
     filmClaimableRefresh();
@@ -74,7 +77,9 @@ const FilmStoreScreen = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Grab Some Public Film</Text>
           <FlatList
-            data={claimable.films}
+            data={claimable.films.filter((film: any) =>
+              claimableSymbols.includes(film.symbol)
+            )}
             renderItem={data => <FilmPreview film={data.item} />}
             horizontal
             indicatorStyle="white"

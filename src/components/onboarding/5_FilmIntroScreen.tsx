@@ -93,6 +93,12 @@ const FilmIntroScreen = () => {
           style={styles.buttonStyle}
           textStyle={styles.buttonTextStyle}
         />
+        <Button
+          text={`Skip for now`}
+          onPress={() => useOnboardingState.getState().completeOnboarding()}
+          style={styles.buttonStyle}
+          textStyle={styles.buttonTextStyle}
+        />
       </ScrollView>
     </SafeAreaView>
   );
