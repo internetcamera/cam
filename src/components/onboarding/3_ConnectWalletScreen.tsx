@@ -54,12 +54,9 @@ const ConnectWalletScreen = () => {
             }
           );
         }}
-        style={[styles.buttonStyle, styles.buttonMetaMask]}
+        style={[styles.buttonStyle, styles.buttonMetaMaskInstall]}
         textStyle={styles.buttonTextStyle}
       />
-      <Text style={styles.footerText}>
-        Note: You don't need any funds in your wallet!
-      </Text>
     </View>
   );
 };
@@ -87,18 +84,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'HelveticaNowBold'
   },
-  footerText: {
-    color: 'white',
-    fontFamily: 'HelveticaNowRegular',
-    marginTop: 40,
-    fontSize: 16,
-    textAlign: 'center'
-  },
   buttonRainbow: {
-    backgroundColor: 'blue'
+    backgroundColor: 'hsl(220, 76%, 31%)'
   },
   buttonMetaMask: {
-    backgroundColor: 'orange'
+    backgroundColor: 'hsl(28, 91%, 54%)'
+  },
+  buttonMetaMaskInstall: {
+    borderColor: 'hsl(0, 0%, 30%)',
+    borderWidth: 1,
+    backgroundColor: 'transparent'
   }
 });
 

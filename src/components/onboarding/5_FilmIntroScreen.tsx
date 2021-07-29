@@ -45,8 +45,6 @@ const FilmIntroScreen = () => {
           of photo filters (postprocessing and AR) will be able to incorporate
           their filters into rolls of film, allowing them to make money for that
           work for the first time.
-          {'\n'}
-          No real money is needed while testing.
         </Text>
         <View style={{ height: 15 }} />
         <Button

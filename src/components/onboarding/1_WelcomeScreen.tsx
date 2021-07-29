@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import useWallet from '../../features/useWallet';
 import Button from '../ui/Button';
 import * as Haptics from 'expo-haptics';
+import Spacer from '../ui/Spacer';
 
 const Welcome = () => {
   const navigation = useNavigation();
@@ -22,31 +23,30 @@ const Welcome = () => {
   }, []);
   return (
     <View style={styles.container}>
+      <Spacer />
       <Text style={styles.title}>CAM</Text>
       <Text style={styles.subtitle}>TestFlight Release</Text>
-
+      <Spacer />
+      <Text style={styles.message}>Welcome to CAM!</Text>
+      <View style={{ height: 10 }} />
       <Text style={styles.message}>
-        Welcome to the first Web 3 camera, powered by the open Internet Camera
-        protocol.
+        Have you used a Web3 app before? One that uses an Ethereum wallet?
       </Text>
-      <View style={{ height: 30 }} />
-      <Text style={styles.message}>
-        Have you used a Web 3 app before? One that uses an Ethereum wallet?
-      </Text>
-
-      <Button
-        text="No, this is my first one"
-        onPress={openExplainer}
-        style={styles.buttonStyle}
-        textStyle={styles.buttonTextStyle}
-      />
-
+      <View style={{ height: 10 }} />
       <Button
         text="Yes, I have a wallet already"
         onPress={openWalletConnector}
         style={styles.buttonStyle}
         textStyle={styles.buttonTextStyle}
       />
+      <Button
+        text="No, I'm new to Web3"
+        onPress={openExplainer}
+        style={styles.buttonStyle}
+        textStyle={styles.buttonTextStyle}
+      />
+      <Spacer />
+      <Spacer />
     </View>
   );
 };
@@ -72,12 +72,14 @@ const styles = StyleSheet.create({
   },
   message: {
     color: 'white',
-    fontFamily: 'HelveticaNowBold',
-    fontSize: 24
+    fontFamily: 'HelveticaNowRegular',
+    fontSize: 24,
+    lineHeight: 32,
+    marginBottom: 10
   },
   buttonStyle: {
     padding: 15,
-    marginTop: 20,
+    marginTop: 10,
     backgroundColor: 'hsl(260, 100%, 50%)',
     width: '100%'
   },

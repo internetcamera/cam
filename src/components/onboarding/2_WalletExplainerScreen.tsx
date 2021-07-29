@@ -16,7 +16,7 @@ const WalletExplainerScreen = () => {
         <Spacer />
         <Text style={styles.message}>
           <Text style={styles.bold}>
-            Your wallet is your key to the world of Web 3.
+            The wallet is your key to the world of Web3.
           </Text>
           {'\n'}
           {'\n'}A wallet lets you generate accounts easily and securely, without

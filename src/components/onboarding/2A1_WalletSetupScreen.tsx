@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, Linking } from 'react-native';
+import { Text, StyleSheet, Linking, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../ui/Button';
@@ -49,9 +49,14 @@ const WalletSetupScreen = () => {
           style={[styles.buttonStyle, styles.buttonMetaMask]}
           textStyle={styles.buttonTextStyle}
         />
+        <View style={{ height: 20 }} />
+        <Text style={styles.message}>
+          Note: You don't need to spend any money to use CAM! Your wallet is
+          only used for logging in.
+        </Text>
         <Spacer />
         <Button
-          text="Tap here after you've set up a wallet"
+          text="Tap here after you've set up your wallet"
           onPress={() => {
             navigation.navigate('ConnectWallet');
           }}
@@ -87,15 +92,16 @@ const styles = StyleSheet.create({
     lineHeight: 44,
     fontSize: 32
   },
+
   buttonTextStyle: {
     fontSize: 18,
     fontFamily: 'HelveticaNowBold'
   },
   buttonRainbow: {
-    backgroundColor: 'blue'
+    backgroundColor: 'hsl(220, 76%, 31%)'
   },
   buttonMetaMask: {
-    backgroundColor: 'orange'
+    backgroundColor: 'hsl(28, 91%, 54%)'
   }
 });
 
