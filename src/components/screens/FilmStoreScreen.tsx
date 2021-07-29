@@ -9,10 +9,7 @@ import Button from '../ui/Button';
 import EmptyFilmStoreInlineList from '../empty/EmptyFilmStoreInlineList';
 import useRefreshing from '../../features/useRefreshing';
 import useFilmInWallet from '../../features/useFilmInWallet';
-import { Portal } from '@gorhom/portal';
-import BottomSheet, { BottomSheetBackgroundProps } from '@gorhom/bottom-sheet';
-import FilmExplainerSheet from '../sheets/FilmExplainerSheet';
-import * as Haptics from 'expo-haptics';
+// import BottomSheet from '@gorhom/bottom-sheet';
 
 const FilmStoreScreen = () => {
   const account = useWallet(state => state.account);
@@ -42,7 +39,7 @@ const FilmStoreScreen = () => {
     filmClaimableRefresh();
   };
   const { refreshControl } = useRefreshing(refresh);
-  const explainerRef = useRef<BottomSheet>(null);
+  // const explainerRef = useRef<BottomSheet>(null);
 
   return (
     <ScrollView
