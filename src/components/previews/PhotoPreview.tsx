@@ -43,7 +43,7 @@ const PhotoPreview = ({
           console.log(buttonIndex);
           ActionSheetIOS.showShareActionSheetWithOptions(
             {
-              url: `https://internet.camera/explorer/film/${photo.film.id}`
+              url: `https://cam.internet.camera/photo/${photo.id}`
             },
             () => null,
             () => null

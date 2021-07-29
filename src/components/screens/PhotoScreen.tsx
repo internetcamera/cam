@@ -32,7 +32,7 @@ const PhotoScreen = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     ActionSheetIOS.showShareActionSheetWithOptions(
       {
-        url: `https://internet.camera/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`
+        url: `https://cam.internet.camera/photo/${photo.id}`
       },
       () => null,
       () => null
@@ -162,6 +162,22 @@ const PhotoScreen = () => {
       </View>
 
       <View style={styles.buttons}>
+        <Button
+          text="Open in Web Browser ↗"
+          onPress={() => {
+            WebBrowser.openBrowserAsync(
+              `http://cam.internet.camera/photo/${photo.id}`,
+              { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
+            );
+          }}
+          style={{
+            justifyContent: 'flex-start',
+            padding: 15,
+            backgroundColor: 'hsl(240, 70%, 40%)'
+          }}
+          textStyle={{ fontFamily: 'HelveticaNowBold' }}
+        />
+        <View style={{ height: 10 }} />
         <Button
           text="Open in Internet Camera Explorer ↗"
           onPress={() => {
