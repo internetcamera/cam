@@ -40,10 +40,9 @@ const PhotoPreview = ({
       },
       async buttonIndex => {
         if (buttonIndex === 1) {
-          console.log(buttonIndex);
           ActionSheetIOS.showShareActionSheetWithOptions(
             {
-              url: `https://cam.internet.camera/photo/${photo.id}`
+              url: `https://cam.internet.camera/film/${photo.film.id}/${photo.filmIndex}`
             },
             () => null,
             () => null

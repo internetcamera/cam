@@ -32,7 +32,7 @@ const PhotoScreen = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     ActionSheetIOS.showShareActionSheetWithOptions(
       {
-        url: `https://cam.internet.camera/photo/${photo.id}`
+        url: `https://cam.internet.camera/film/${photo.film.id}/${photo.filmIndex}`
       },
       () => null,
       () => null
@@ -63,7 +63,6 @@ const PhotoScreen = () => {
       },
       async buttonIndex => {
         if (buttonIndex === 1) {
-          console.log(buttonIndex);
           ActionSheetIOS.showShareActionSheetWithOptions(
             {
               url: `https://internet.camera/explorer/film/${photo.film.id}`
@@ -166,7 +165,7 @@ const PhotoScreen = () => {
           text="Open in Web Browser ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
-              `http://cam.internet.camera/photo/${photo.id}`,
+              `https://cam.internet.camera/film/${photo.film.id}/${photo.filmIndex}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
@@ -182,7 +181,7 @@ const PhotoScreen = () => {
           text="Open in Internet Camera Explorer ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
-              `https://internet.camera/explorer/film/${photo.film.filmAddress}/${photo.filmIndex}?tokenId=${photo.id}`,
+              `https://internet.camera/explorer/film/${photo.film.id}/${photo.filmIndex}?tokenId=${photo.id}`,
               { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
             );
           }}
