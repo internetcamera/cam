@@ -27,20 +27,16 @@ const Welcome = () => {
       <Text style={styles.title}>CAM</Text>
       <Text style={styles.subtitle}>TestFlight Release</Text>
       <Spacer />
-      <Text style={styles.message}>Welcome to CAM!</Text>
-      <View style={{ height: 10 }} />
-      <Text style={styles.message}>
-        Have you used a Web3 app before? One that uses an Ethereum wallet?
-      </Text>
+      <Text style={styles.message}>Do you have an Ethereum wallet?</Text>
       <View style={{ height: 10 }} />
       <Button
-        text="Yes, I have a wallet already"
+        text="Yes, I have a wallet"
         onPress={openWalletConnector}
         style={styles.buttonStyle}
         textStyle={styles.buttonTextStyle}
       />
       <Button
-        text="No, I'm new to Web3"
+        text="No, I don't - or don't know what that means"
         onPress={openExplainer}
         style={styles.buttonStyle}
         textStyle={styles.buttonTextStyle}
@@ -72,7 +68,7 @@ const styles = StyleSheet.create({
   },
   message: {
     color: 'white',
-    fontFamily: 'HelveticaNowRegular',
+    fontFamily: 'HelveticaNowBold',
     fontSize: 24,
     lineHeight: 32,
     marginBottom: 10

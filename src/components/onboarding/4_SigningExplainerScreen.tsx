@@ -22,9 +22,7 @@ const SigningExplainerScreen = () => {
       >
         <Text style={styles.title}>Welcome!</Text>
         <Text style={styles.message}>
-          Cam should be intuitive to use, but one new thing you may need to
-          adjust to is the process of signing in your wallet.{'\n'}
-          {'\n'}Some actions in the app, like publishing a photo, require you to
+          Some actions in the app, like publishing a photo, require you to
           confirm the action in your wallet. It looks like this:
         </Text>
         <View style={{ height: 30 }} />

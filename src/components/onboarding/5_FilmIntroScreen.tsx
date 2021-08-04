@@ -7,6 +7,7 @@ import getJsonRpcProvider from '../../features/getJsonRpcProvider';
 import useOnboardingState from '../../features/useOnboardingState';
 import useWallet from '../../features/useWallet';
 import Button from '../ui/Button';
+import Spacer from '../ui/Spacer';
 
 const FilmIntroScreen = () => {
   const account = useWallet(state => state.account);
@@ -23,32 +24,21 @@ const FilmIntroScreen = () => {
           padding: 15
         }}
       >
-        <Text style={styles.title}>CAM uses FILM.</Text>
+        <Text style={styles.title}>To publish a Photo, you need Film.</Text>
         <Text style={styles.message}>
-          Every photo posted using CAM requires using 1 FILM for processing and
-          storage.
+          Film is new, open token standard for creating photo collections.
           {'\n'}
           {'\n'}
-          FILM is a type of virtual token that can be created by anyone for a
-          small, upfront per-photo fee. Just set a title, the amount of FILM
-          available in that roll, some optional customization settings, and it's
-          live. The creator can then keep, use, or distribute their film however
-          they'd like.
+          Every photo posted with CAM requires using one Film token. Film covers
+          all costs of processing and long-term storage on a decentralized
+          network.
           {'\n'}
           {'\n'}
-          That includes keeping a personal roll, sharing one with a group of
-          friends, distributing one for use at an event, selling them for a flat
-          fee, selling them on an open exchange, and more.
-          {'\n'}
-          {'\n'}
-          FILM comes with a number of customization options, and soon creators
-          of photo filters (postprocessing and AR) will be able to incorporate
-          their filters into rolls of film, allowing them to make money for that
-          work for the first time.
+          Claim your first Film token to get started. It's on the house.
         </Text>
-        <View style={{ height: 15 }} />
+        <Spacer />
         <Button
-          text={`Get 1 HELLO FILM`}
+          text={`Get 1 HELLO Film`}
           onPress={async () => {
             if (!account) throw new Error('Not logged in!');
             try {
@@ -94,7 +84,7 @@ const FilmIntroScreen = () => {
         <Button
           text={`Skip for now`}
           onPress={() => useOnboardingState.getState().completeOnboarding()}
-          style={styles.buttonStyle}
+          style={[styles.buttonStyle, { backgroundColor: '#222' }]}
           textStyle={styles.buttonTextStyle}
         />
       </ScrollView>
