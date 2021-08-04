@@ -51,7 +51,7 @@ const WalletSetupScreen = () => {
         />
         <View style={{ height: 20 }} />
         <Text style={styles.message}>
-          Note: You don't need to spend any money to use CAM! Your wallet is
+          Note: You don't need to spend any money to use Cam! Your wallet is
           only used for logging in.
         </Text>
         <Spacer />

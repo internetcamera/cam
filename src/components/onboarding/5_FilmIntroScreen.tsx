@@ -29,7 +29,7 @@ const FilmIntroScreen = () => {
           Film is new, open token standard for creating photo collections.
           {'\n'}
           {'\n'}
-          Every photo posted with CAM requires using one Film token. Film covers
+          Every photo posted with Cam requires using one Film token. Film covers
           all costs of processing and long-term storage on a decentralized
           network.
           {'\n'}

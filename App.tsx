@@ -76,7 +76,7 @@ export default function App() {
               name="FilmRollStack"
               component={FilmRollStack}
               options={({ route }) => ({
-                title: route.params?.title || 'CAM',
+                title: route.params?.title || 'Cam',
                 headerTintColor: 'white',
                 headerBackTitleVisible: false,
                 headerTitleStyle: {

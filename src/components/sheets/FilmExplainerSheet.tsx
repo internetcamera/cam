@@ -114,7 +114,7 @@ const FilmExplainerSheet = () => {
           <MaterialCommunityIcons name="film" size={40} color="#ccc" />
           <View style={{ height: 30 }} />
           <Text style={styles.text}>
-            You need film to take photos in CAM.{'\n'}
+            You need film to take photos in Cam.{'\n'}
             {'\n'}Film is a new digital currency format that can be spent to
             post a photo.
           </Text>
@@ -133,7 +133,7 @@ const FilmExplainerSheet = () => {
           <MaterialCommunityIcons name="film" size={40} color="#ccc" />
           <View style={{ height: 30 }} />
           <Text style={styles.text}>
-            You need film to take photos in CAM.{'\n'}
+            You need film to take photos in Cam.{'\n'}
             {'\n'}Film is a new digital currency format that can be spent to
             post a photo.
           </Text>

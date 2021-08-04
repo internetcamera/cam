@@ -24,7 +24,7 @@ const Welcome = () => {
   return (
     <View style={styles.container}>
       <Spacer />
-      <Text style={styles.title}>CAM</Text>
+      <Text style={styles.title}>Cam</Text>
       <Text style={styles.subtitle}>TestFlight Release</Text>
       <Spacer />
       <Text style={styles.message}>Do you have an Ethereum wallet?</Text>
