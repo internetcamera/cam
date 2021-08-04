@@ -1,7 +1,7 @@
 import { getClaimFilmTypedData } from '@internetcamera/sdk/dist/utils/forwarder';
 import { useIsFocused } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import getJsonRpcProvider from '../../features/getJsonRpcProvider';
 import useOnboardingState from '../../features/useOnboardingState';
