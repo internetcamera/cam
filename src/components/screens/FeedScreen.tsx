@@ -13,13 +13,12 @@ import useFeed from '../../features/useFeed';
 import useWallet from '../../features/useWallet';
 import { HomeTabsParamList } from '../navigation/HomeStack';
 import useScrollToTop from '../../features/useScrollToTop';
-import ErrorView from '../ErrorView';
 
 const FeedScreen = () => {
   const { params } = useRoute<RouteProp<HomeTabsParamList, 'Home'>>();
   const { title, feed } = params;
   const account = useWallet(state => state.account);
-  const { data, refresh, loading, error } = useFeed(feed, account || undefined);
+  const { data, refresh, loading } = useFeed(feed, account || undefined);
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -40,9 +39,7 @@ const FeedScreen = () => {
       renderItem={photo => <PhotoPreview photo={photo.item} />}
       initialNumToRender={3}
       refreshControl={refreshControl}
-      ListEmptyComponent={
-        error ? <ErrorView error={error.message} /> : <EmptyPhotoList />
-      }
+      ListEmptyComponent={<EmptyPhotoList />}
       showsVerticalScrollIndicator={data && data.length > 0}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
