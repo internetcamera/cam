@@ -32,7 +32,7 @@ const FilmStoreScreen = () => {
     }
   `);
 
-  const claimableSymbols = ['OUTSIDE', 'WINDOW'];
+  const claimableSymbols = ['OUTSIDE', 'WINDOW', 'HELLO'];
 
   const refresh = () => {
     filmInWalletRefresh();
