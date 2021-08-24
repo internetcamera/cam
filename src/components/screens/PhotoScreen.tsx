@@ -1,5 +1,5 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -21,12 +21,18 @@ import AddressOrNamePreview from '../previews/AddressOrNamePreview';
 import CachedImage from '../CachedImage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
+import useWallet from '../../features/useWallet';
+import { getBurnPhotoTypedData } from '@internetcamera/sdk/dist/utils/forwarder';
+import getJsonRpcProvider from '../../features/getJsonRpcProvider';
+import { formatEther } from 'ethers/lib/utils';
 
 const PhotoScreen = () => {
   const route = useRoute<RouteProp<AppStackParamsList, 'Photo'>>();
   const navigation = useNavigation();
   const { data: photo } = usePhoto(route.params.tokenId);
-
+  const { account } = useWallet();
+  const [_openedWallet, setOpenedWallet] = useState(false);
+  const [_signature, setSignature] = useState<string>();
   const onSharePress = async () => {
     if (!photo) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -38,11 +44,17 @@ const PhotoScreen = () => {
       () => null
     );
   };
-
   useEffect(() => {
     if (!photo) return;
     navigation.setOptions({
-      title: `${photo.film.symbol} – № ${parseInt(`${photo.filmIndex}`) + 1}`,
+      title: `$${photo.film.symbol}   № ${
+        parseInt(`${photo.filmIndex}`) + 1
+      } of ${parseInt(formatEther(photo.film.totalSupply))}`,
+      headerTitleStyle: {
+        color: `hsl(${
+          parseInt(photo.film.id.slice(-9) || '0', 16) % 360
+        }, 100%, 70%)`
+      },
       headerRight: () => (
         <Pressable onPress={onSharePress}>
           <MaterialCommunityIcons name="share" size={24} color="white" />
@@ -55,7 +67,14 @@ const PhotoScreen = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        options: ['Cancel', 'Share', 'Save to iOS Photos', 'Report'],
+        options: [
+          'Cancel',
+          'Share',
+          'Save to iOS Photos',
+          !account || account.toLowerCase() != photo.owner.address.toLowerCase()
+            ? 'Report'
+            : 'Delete'
+        ],
         cancelButtonIndex: 0,
         destructiveButtonIndex: 3,
         tintColor: '#fff',
@@ -104,13 +123,51 @@ const PhotoScreen = () => {
             alert("You don't have permission.");
           }
         } else if (buttonIndex == 3) {
-          MailComposer.composeAsync({
-            recipients: ['reports@internet.camera'],
-            subject: `Reporting Photo [${photo.id}]`,
-            body: `Reporting Photo [${
-              photo.id
-            }]\n\nSent using Cam on ${dayjs().format('MMMM D, YYYY h:mmaZZ')}`
-          });
+          if (
+            !account ||
+            account.toLowerCase() != photo.owner.address.toLowerCase()
+          ) {
+            MailComposer.composeAsync({
+              recipients: ['reports@internet.camera'],
+              subject: `Reporting Photo [${photo.id}]`,
+              body: `Reporting Photo [${
+                photo.id
+              }]\n\nSent using Cam on ${dayjs().format('MMMM D, YYYY h:mmaZZ')}`
+            });
+          } else {
+            const jsonRpcProvider = getJsonRpcProvider();
+            const typedData = await getBurnPhotoTypedData(
+              photo.id,
+              account,
+              80001,
+              jsonRpcProvider
+            );
+            const signTypedData = useWallet.getState().signTypedData;
+            if (!signTypedData) throw new Error('Wallet not ready to sign!');
+            setTimeout(() => {
+              setOpenedWallet(true);
+            }, 500);
+            const signature = await signTypedData(JSON.stringify(typedData));
+            setSignature(signature);
+            let response: { hash: string };
+            do {
+              response = await fetch('https://tx.internet.camera/api/forward', {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                  data: typedData,
+                  signature
+                })
+              })
+                .then(res => res.json())
+                .catch(err => console.log(err));
+              if (!response) await new Promise(r => setTimeout(r, 500));
+            } while (response == undefined);
+            useWallet.getState().addPendingTransaction(response.hash);
+            navigation.navigate('Activity');
+          }
         }
       }
     );
@@ -162,11 +219,15 @@ const PhotoScreen = () => {
 
       <View style={styles.buttons}>
         <Button
-          text="Open in Web Browser ↗"
+          text="Share this photo  ↗"
           onPress={() => {
-            WebBrowser.openBrowserAsync(
-              `https://cam.internet.camera/film/${photo.film.id}/${photo.filmIndex}`,
-              { controlsColor: '#FFFFFF', toolbarColor: '#000000' }
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            ActionSheetIOS.showShareActionSheetWithOptions(
+              {
+                url: `https://cam.internet.camera/film/${photo.film.id}/${photo.filmIndex}`
+              },
+              () => null,
+              () => null
             );
           }}
           style={{
@@ -178,7 +239,7 @@ const PhotoScreen = () => {
         />
         <View style={{ height: 10 }} />
         <Button
-          text="Open in Internet Camera Explorer ↗"
+          text="View in Internet Camera Explorer  ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
               `https://internet.camera/explorer/film/${photo.film.id}/${photo.filmIndex}?tokenId=${photo.id}`,
@@ -194,7 +255,7 @@ const PhotoScreen = () => {
         />
         <View style={{ height: 10 }} />
         <Button
-          text="Open on PolygonScan ↗"
+          text="View in Block Explorer  ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
               `https://mumbai.polygonscan.com/token/${InternetCameraAddresses[80001].camera}?a=${photo.id}`,
@@ -210,7 +271,7 @@ const PhotoScreen = () => {
         />
         <View style={{ height: 10 }} />
         <Button
-          text="Open on OpenSea ↗"
+          text="View in OpenSea  ↗"
           onPress={() => {
             WebBrowser.openBrowserAsync(
               `https://testnets.opensea.io/assets/mumbai/${InternetCameraAddresses[80001].camera}/${photo.id}`,
@@ -224,31 +285,6 @@ const PhotoScreen = () => {
           }}
           textStyle={{ fontFamily: 'HelveticaNowBold' }}
         />
-      </View>
-
-      <View style={styles.code}>
-        {Object.keys(photo)
-          .sort((a, b) => (a == 'id' ? -1 : a.localeCompare(b)))
-          .map((key, i) => (
-            <View
-              style={[
-                styles.codeLine,
-                i == Object.keys(photo).length - 1
-                  ? { marginBottom: 0, borderBottomWidth: 0 }
-                  : null
-              ]}
-              key={key}
-            >
-              <Text style={styles.codeKey}>{key}</Text>
-              <Text style={styles.codeValue}>
-                {key == 'createdAt'
-                  ? dayjs
-                      .unix(photo.createdAt)
-                      .format('MMMM D, YYYY [at] h:mma')
-                  : JSON.stringify((photo as any)[key], null, 2)}
-              </Text>
-            </View>
-          ))}
       </View>
     </ScrollView>
   );

@@ -30,14 +30,22 @@ const WalletManager = () => {
         break;
     }
   };
+
   const openExternalLink: OnShouldStartLoadWithRequest = () => true;
+
   useEffect(() => {
     useWallet.setState({
       disconnect: () => {
         webviewRef.current?.injectJavaScript('window.disconnect();true;');
       },
+      refreshManager: () => {
+        console.log(useWallet.getState().wcUri);
+        webviewRef.current?.reload();
+      },
       signTypedData: data => {
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
+          webviewRef.current?.reload();
+          await new Promise(resolve => setTimeout(resolve, 500));
           webviewRef.current?.injectJavaScript(
             `window.signTypedData('${data}');true;`
           );
@@ -46,15 +54,14 @@ const WalletManager = () => {
             if (!app) return;
             openApp(app);
           }, 500);
+
           signatureCallbackRef.current = resolve;
         });
       },
-      openApp,
-      refreshManager: () => {
-        webviewRef.current?.reload();
-      }
+      openApp
     });
   }, []);
+
   const openApp = (app: string, urlSuffix?: string) => {
     setSelectedApp(app);
     switch (app) {
@@ -90,4 +97,4 @@ const WalletManager = () => {
   );
 };
 
-export default WalletManager;
+export default React.memo(WalletManager);

@@ -1,7 +1,14 @@
 import React from 'react';
 import FilmStoreScreen from '../screens/FilmStoreScreen';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
-const StackNavigation = createNativeStackNavigator();
+import FilmCreateScreen from '../screens/FilmCreateScreen';
+
+export type FilmStoreParamsList = {
+  Film: undefined;
+  FilmCreate: { model: 'personal' | 'claimable' };
+};
+
+const StackNavigation = createNativeStackNavigator<FilmStoreParamsList>();
 
 const FilmStoreStack = () => {
   return (
@@ -9,7 +16,6 @@ const FilmStoreStack = () => {
       <StackNavigation.Screen
         name="Film"
         component={FilmStoreScreen}
-        initialParams={{ feed: 'home' }}
         options={{
           title: 'Film',
           headerTitleStyle: {
@@ -18,6 +24,20 @@ const FilmStoreStack = () => {
           headerStyle: {
             backgroundColor: 'rgb(5,5,5)'
           }
+        }}
+      />
+      <StackNavigation.Screen
+        name="FilmCreate"
+        component={FilmCreateScreen}
+        options={{
+          title: 'Create Film',
+          headerTitleStyle: {
+            fontFamily: 'HelveticaNowBold'
+          },
+          headerStyle: {
+            backgroundColor: 'rgb(5,5,5)'
+          },
+          headerBackTitleVisible: false
         }}
       />
     </StackNavigation.Navigator>

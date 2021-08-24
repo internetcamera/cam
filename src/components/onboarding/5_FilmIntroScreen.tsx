@@ -1,6 +1,6 @@
 import { getClaimFilmTypedData } from '@internetcamera/sdk/dist/utils/forwarder';
-import { useIsFocused } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+
+import React from 'react';
 import { Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import getJsonRpcProvider from '../../features/getJsonRpcProvider';
@@ -11,10 +11,6 @@ import Spacer from '../ui/Spacer';
 
 const FilmIntroScreen = () => {
   const account = useWallet(state => state.account);
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    useWallet.getState().refreshManager?.();
-  }, [isFocused, account]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView

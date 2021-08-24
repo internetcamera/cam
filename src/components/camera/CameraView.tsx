@@ -192,8 +192,7 @@ const CameraView = ({}) => {
       );
       setIPFSHash(hash);
     }
-    useWallet.getState().refreshManager?.();
-    await new Promise(resolve => setTimeout(resolve, 500));
+
     const jsonRpcProvider = getJsonRpcProvider();
     const typedData = await getPostPhotoTypedData(
       selectedFilmAddress,

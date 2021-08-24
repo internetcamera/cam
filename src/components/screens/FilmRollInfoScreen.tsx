@@ -10,7 +10,6 @@ import { FilmRollStackParamsList } from '../navigation/FilmRollStack';
 import FilmProgressIcon from '../previews/FilmProgressIcon';
 import Button from '../ui/Button';
 import * as WebBrowser from 'expo-web-browser';
-import dayjs from 'dayjs';
 
 const FilmRollInfoScreen = () => {
   const { params } =
@@ -29,10 +28,22 @@ const FilmRollInfoScreen = () => {
           <Text style={styles.name}>{film.name}</Text>
           <FilmProgressIcon film={film} />
         </View>
+        <Text
+          style={[
+            styles.symbol,
+            {
+              color: `hsl(${
+                parseInt(film.filmAddress.slice(-9) || '0', 16) % 360
+              }, 100%, 70%)`
+            }
+          ]}
+        >
+          ${film.symbol}
+        </Text>
         <Text style={styles.symbol}>
           {film.used} of{' '}
           {parseInt(formatEther(film.totalSupply)).toLocaleString()} photos
-          taken • Held in{' '}
+          taken •{' '}
           {
             film.wallets.filter(
               ({ wallet }) =>
@@ -43,13 +54,13 @@ const FilmRollInfoScreen = () => {
                   '0x0000000000000000000000000000000000000000'
             ).length
           }{' '}
-          wallets
+          members
         </Text>
         <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non
-          mauris sit amet augue varius vulputate vitae vitae neque. Quisque
-          ornare sodales magna, in tincidunt tortor. Integer pretium vel lectus
-          ac pellentesque.
+          {
+            //@ts-ignore
+            film.description
+          }
         </Text>
       </View>
 
@@ -85,36 +96,6 @@ const FilmRollInfoScreen = () => {
           }}
           textStyle={{ fontFamily: 'HelveticaNowBold' }}
         />
-      </View>
-
-      <View style={styles.code}>
-        {Object.keys(film)
-          .filter(key => !['wallets', 'photos'].includes(key))
-          .sort((a, b) => (a == 'id' ? -1 : a.localeCompare(b)))
-          .map((key, i) => (
-            <View
-              style={[
-                styles.codeLine,
-                i ==
-                Object.keys(film).filter(
-                  key => !['wallets', 'photos'].includes(key)
-                ).length -
-                  1
-                  ? { marginBottom: 0, borderBottomWidth: 0 }
-                  : null
-              ]}
-              key={key}
-            >
-              <Text style={styles.codeKey}>{key}</Text>
-              <Text style={styles.codeValue}>
-                {key == 'totalSupply'
-                  ? parseInt(formatEther(film.totalSupply))
-                  : key == 'createdAt'
-                  ? dayjs.unix(film.createdAt).format('MMMM D, YYYY [at] h:mma')
-                  : JSON.stringify((film as any)[key], null, 2)}
-              </Text>
-            </View>
-          ))}
       </View>
     </ScrollView>
   );

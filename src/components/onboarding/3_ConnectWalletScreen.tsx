@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, AppState } from 'react-native';
 import useWallet from '../../features/useWallet';
 import Button from '../ui/Button';
 import * as WebBrowser from 'expo-web-browser';
@@ -10,36 +10,51 @@ const ConnectWalletScreen = () => {
   const account = useWallet(state => state.account);
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const [isOpening, setIsOpening] = useState(false);
   useEffect(() => {
+    const onAppStateChange = () => {
+      if (!isOpening && AppState.currentState === 'active') {
+        useWallet.getState().refreshManager?.();
+      }
+    };
+    AppState.addEventListener('change', onAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
+  }, []);
+  useEffect(() => {
+    setIsOpening(false);
     if (account) navigation.navigate('DecentralizedApps');
+    useWallet.getState().refreshManager?.();
   }, [account, isFocused]);
-
   return (
     <View style={styles.container}>
       <Text style={styles.loginMessage}>Choose a wallet to connect with.</Text>
       <Button
         text="Rainbow"
-        onPress={() =>
+        onPress={() => {
+          setIsOpening(true);
           useWallet
             .getState()
             .openApp?.(
               'rainbow',
               `wc?uri=${encodeURIComponent(useWallet.getState().wcUri || '')}`
-            )
-        }
+            );
+        }}
         style={[styles.buttonStyle, styles.buttonRainbow]}
         textStyle={styles.buttonTextStyle}
       />
       <Button
         text="Metamask for iPhone"
-        onPress={() =>
+        onPress={() => {
+          setIsOpening(true);
           useWallet
             .getState()
             .openApp?.(
               'metamask',
               `wc?uri=${encodeURIComponent(useWallet.getState().wcUri || '')}`
-            )
-        }
+            );
+        }}
         style={[styles.buttonStyle, styles.buttonMetaMask]}
         textStyle={styles.buttonTextStyle}
       />

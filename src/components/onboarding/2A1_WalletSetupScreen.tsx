@@ -1,13 +1,33 @@
-import React from 'react';
-import { Text, StyleSheet, Linking, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, StyleSheet, Linking, View, AppState } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../ui/Button';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import Spacer from '../ui/Spacer';
+import { useWallet } from '../../features/useWallet';
 
 const WalletSetupScreen = () => {
+  const account = useWallet(state => state.account);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [isOpening, setIsOpening] = useState(false);
+  useEffect(() => {
+    const onAppStateChange = () => {
+      if (!isOpening && AppState.currentState === 'active') {
+        useWallet.getState().refreshManager?.();
+      }
+    };
+    AppState.addEventListener('change', onAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', onAppStateChange);
+    };
+  }, []);
+  useEffect(() => {
+    setIsOpening(false);
+    useWallet.getState().refreshManager?.();
+  }, [account, isFocused]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView

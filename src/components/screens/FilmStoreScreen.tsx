@@ -1,15 +1,21 @@
 import React, { useRef } from 'react';
 import { useQuery } from '@internetcamera/sdk/dist/react';
-import { View, StyleSheet, Text, ScrollView, FlatList } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  FlatList,
+  Linking
+} from 'react-native';
 import FilmPreview from '../previews/FilmPreview';
 import { gql } from 'graphql-request';
-import { useScrollToTop } from '@react-navigation/native';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import useWallet from '../../features/useWallet';
 import Button from '../ui/Button';
 import EmptyFilmStoreInlineList from '../empty/EmptyFilmStoreInlineList';
 import useRefreshing from '../../features/useRefreshing';
 import useFilmInWallet from '../../features/useFilmInWallet';
-// import BottomSheet from '@gorhom/bottom-sheet';
 
 const FilmStoreScreen = () => {
   const account = useWallet(state => state.account);
@@ -18,6 +24,7 @@ const FilmStoreScreen = () => {
   );
   const ref = useRef<ScrollView>(null);
   useScrollToTop(ref);
+  const navigation = useNavigation();
   const { data: claimable, refresh: filmClaimableRefresh } = useQuery(gql`
     {
       films(where: { factoryModel: "claimable" }) {
@@ -32,14 +39,13 @@ const FilmStoreScreen = () => {
     }
   `);
 
-  const claimableSymbols = ['OUTSIDE', 'WINDOW', 'HELLO'];
+  const claimableSymbols = ['🍄', 'LISTENING2', '1111', 'LDOS21', 'HELLO'];
 
   const refresh = () => {
     filmInWalletRefresh();
     filmClaimableRefresh();
   };
   const { refreshControl } = useRefreshing(refresh);
-  // const explainerRef = useRef<BottomSheet>(null);
 
   return (
     <ScrollView
@@ -74,9 +80,11 @@ const FilmStoreScreen = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Grab Some Public Film</Text>
           <FlatList
-            data={claimable.films.filter((film: any) =>
-              claimableSymbols.includes(film.symbol)
-            )}
+            data={[
+              ...claimable.films.filter((film: any) =>
+                claimableSymbols.includes(film.symbol)
+              )
+            ].sort(() => 0.5 - Math.random())}
             renderItem={data => <FilmPreview film={data.item} />}
             horizontal
             indicatorStyle="white"
@@ -86,63 +94,39 @@ const FilmStoreScreen = () => {
           />
         </View>
       )}
-      {/* 
       <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Create New Film Roll</Text>
         <View style={styles.sectionContent}>
           <Button
-            text="Learn more about Film"
-            onPress={() => {
-              Haptics.impactAsync();
-              explainerRef.current?.expand();
-            }}
+            text="Create Personal Film"
+            onPress={() =>
+              navigation.navigate('FilmCreate', { model: 'personal' })
+            }
             style={styles.buttonStyle}
             textStyle={styles.buttonTextStyle}
           />
-          <Portal>
-            <BottomSheet
-              ref={explainerRef}
-              snapPoints={['0%', '100%']}
-              backgroundComponent={({ style }: BottomSheetBackgroundProps) => (
-                <View
-                  style={[style, { backgroundColor: 'rgba(0, 0, 0, 0.9)' }]}
-                />
-              )}
-            >
-              <FilmExplainerSheet />
-            </BottomSheet>
-          </Portal>
-        </View>
-      </View> */}
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Create a New Film Roll</Text>
+          <Button
+            text="Create Claimable Film"
+            onPress={() =>
+              navigation.navigate('FilmCreate', { model: 'claimable' })
+            }
+            style={styles.buttonStyle}
+            textStyle={styles.buttonTextStyle}
+          />
+        </View>
         <View style={styles.sectionContent}>
+          <Text style={styles.text}>
+            Note: You'll need $FILMFACTORY tokens to create Film while Cam is in
+            beta. You can get these tokens for free in the Internet Camera
+            Discord.
+          </Text>
           <Button
-            text="Personal Film"
-            onPress={() => alert('Available soon.')}
             style={styles.buttonStyle}
-            textStyle={styles.buttonTextStyle}
-          />
-          <View style={{ height: 10 }} />
-          <Button
-            text="Group Film"
-            onPress={() => alert('Available soon.')}
-            style={styles.buttonStyle}
-            textStyle={styles.buttonTextStyle}
-          />
-          <View style={{ height: 10 }} />
-          <Button
-            text="Event Film"
-            onPress={() => alert('Available soon.')}
-            style={styles.buttonStyle}
-            textStyle={styles.buttonTextStyle}
-          />
-          <View style={{ height: 10 }} />
-          <Button
-            text="Public Film"
-            onPress={() => alert('Available soon.')}
-            style={styles.buttonStyle}
-            textStyle={styles.buttonTextStyle}
+            text="Get $FILMFACTORY in Discord   ↗"
+            onPress={() => {
+              Linking.openURL('https://discord.gg/M3J59ywNf8');
+            }}
           />
         </View>
       </View>
@@ -165,13 +149,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textTransform: 'uppercase'
   },
+  text: {
+    paddingVertical: 10,
+    fontFamily: 'HelveticaNowRegular',
+    color: '#ccc',
+    fontSize: 16
+  },
   sectionContent: {
     paddingHorizontal: 15
   },
   list: {},
   buttonStyle: {
     padding: 15,
-    width: '100%'
+    width: '100%',
+    marginBottom: 10
   },
   buttonTextStyle: {
     fontSize: 18

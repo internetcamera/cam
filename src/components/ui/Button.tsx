@@ -16,7 +16,8 @@ const Button = ({
   onPress,
   gradient,
   style,
-  textStyle
+  textStyle,
+  disabled
 }: {
   text: string;
   onPress: (
@@ -25,6 +26,7 @@ const Button = ({
   gradient?: string[];
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  disabled?: boolean;
 }) => {
   const _onPress = (event: GestureResponderEvent) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -35,9 +37,11 @@ const Button = ({
       style={state => [
         styles.container,
         style,
-        state.pressed ? styles.pressed : null
+        state.pressed ? styles.pressed : null,
+        disabled ? styles.disabled : null
       ]}
       onPress={_onPress}
+      disabled={disabled}
     >
       {gradient && <LinearGradient colors={gradient} style={styles.gradient} />}
       <Text style={[styles.text, textStyle]}>{text}</Text>
@@ -59,6 +63,7 @@ const styles = StyleSheet.create({
     opacity: 0.85,
     transform: [{ scale: 0.98 }]
   },
+  disabled: { opacity: 0.5 },
   gradient: {
     position: 'absolute',
     top: 0,

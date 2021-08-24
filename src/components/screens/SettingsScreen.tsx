@@ -158,7 +158,7 @@ const SettingsScreen = () => {
         ListFooterComponent={() => (
           <View style={styles.footer}>
             <Text style={styles.version}>TESTFLIGHT RELEASE</Text>
-            <Text style={styles.version}>PROTOCOL v{version}</Text>
+            <Text style={styles.version}>PROTOCOL v0.1.0</Text>
             <Text style={styles.version}>CAM v{version}</Text>
             <Pressable
               style={state => [
@@ -167,7 +167,7 @@ const SettingsScreen = () => {
               ]}
               onPress={() => {
                 Haptics.impactAsync();
-                Linking.openURL('https://twitter.com/gimmixorg');
+                Linking.openURL('https://gimmix.org/');
               }}
             >
               <GIMMIXFooter />

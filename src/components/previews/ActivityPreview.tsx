@@ -79,7 +79,9 @@ const ActivityPreview = ({
       }}
     >
       <View>
-        {transferEvent.type == 'PHOTO' ? (
+        {transferEvent.type == 'PHOTO' &&
+        transferEvent.to.address.toLowerCase() !=
+          '0x0000000000000000000000000000000000000000' ? (
           <CachedImage
             source={{
               uri: (transferEvent.photo?.image as string).replace(
@@ -96,31 +98,38 @@ const ActivityPreview = ({
             style={{
               width: 66,
               aspectRatio: 1,
-              backgroundColor: '#111',
+              backgroundColor: `hsl(${
+                parseInt(transferEvent.film?.id.slice(-9) || '0', 16) % 360
+              }, 100%, 20%)`,
               justifyContent: 'center',
               alignItems: 'center'
             }}
           >
-            <Text
-              style={[
-                {
-                  fontFamily: 'JetBrainsMono',
-                  fontSize: 12,
-                  color: '#ccc'
-                }
-              ]}
-            >
-              {parseFloat(
-                formatEther(transferEvent.amount || 0)
-              ).toLocaleString()}{' '}
-              FILM
-            </Text>
+            {transferEvent.type == 'FILM' && (
+              <Text
+                style={[
+                  {
+                    fontFamily: 'JetBrainsMono',
+                    fontSize: 12,
+                    color: '#ccc'
+                  }
+                ]}
+              >
+                {parseFloat(
+                  formatEther(transferEvent.amount || 0)
+                ).toLocaleString()}{' '}
+                FILM
+              </Text>
+            )}
           </View>
         )}
       </View>
       <View style={styles.meta}>
-        {transferEvent.from.address.toLowerCase() ==
+        {transferEvent.to.address.toLowerCase() ==
         '0x0000000000000000000000000000000000000000' ? (
+          <Text style={styles.text}>You deleted a photo.</Text>
+        ) : transferEvent.from.address.toLowerCase() ==
+          '0x0000000000000000000000000000000000000000' ? (
           <Text style={styles.text}>
             {toName}{' '}
             {transferEvent.type == 'PHOTO' ? (

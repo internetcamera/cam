@@ -15,6 +15,7 @@ const useFilmRoll = (filmAddress?: string) => {
               film(id: $filmAddress) {
                 id
                 name
+                description
                 symbol
                 totalSupply
                 factoryModel

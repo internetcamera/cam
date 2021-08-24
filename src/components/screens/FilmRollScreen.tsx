@@ -8,12 +8,7 @@ import {
   Alert
 } from 'react-native';
 import PhotoPreview from '../previews/PhotoPreview';
-import {
-  RouteProp,
-  useIsFocused,
-  useNavigation,
-  useRoute
-} from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import useRefreshing from '../../features/useRefreshing';
 import EmptyPhotoList from '../empty/EmptyPhotoList';
 import useFilmRoll from '../../features/useFilmRoll';
@@ -48,11 +43,6 @@ const FilmRollScreen = () => {
         ) : null
     });
   }, [claimableFilmMetadata?.canClaim, filmAddress, account]);
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    useWallet.getState().refreshManager?.();
-  }, [isFocused, account]);
-
   const claimFilm = async () => {
     if (!account) throw new Error('FilmRollScreen: account is required');
     if (isClaiming) return;
@@ -69,6 +59,7 @@ const FilmRollScreen = () => {
       const signTypedData = useWallet.getState().signTypedData;
       if (!signTypedData) throw new Error('Wallet not ready to sign!');
       const signature = await signTypedData(JSON.stringify(typedData));
+      console.log({ signature });
 
       let response: { hash: string };
       do {

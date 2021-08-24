@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,9 @@ import * as MailComposer from 'expo-mail-composer';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
 import CachedImage from '../CachedImage';
+import useWallet from '../../features/useWallet';
+import getJsonRpcProvider from '../../features/getJsonRpcProvider';
+import { getBurnPhotoTypedData } from '@internetcamera/sdk/dist/utils/forwarder';
 
 const PhotoPreview = ({
   photo,
@@ -28,11 +31,21 @@ const PhotoPreview = ({
   hideFooter?: boolean;
 }) => {
   const navigation = useNavigation();
+  const { account } = useWallet();
+  const [_openedWallet, setOpenedWallet] = useState(false);
+  const [_signature, setSignature] = useState<string>();
   const onMenuClick = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        options: ['Cancel', 'Share', 'Save to iOS Photos', 'Report'],
+        options: [
+          'Cancel',
+          'Share',
+          'Save to iOS Photos',
+          !account || account.toLowerCase() != photo.owner.address.toLowerCase()
+            ? 'Report'
+            : 'Delete'
+        ],
         cancelButtonIndex: 0,
         destructiveButtonIndex: 3,
         tintColor: '#fff',
@@ -81,13 +94,51 @@ const PhotoPreview = ({
             alert("You don't have permission.");
           }
         } else if (buttonIndex == 3) {
-          MailComposer.composeAsync({
-            recipients: ['reports@internet.camera'],
-            subject: `Reporting Photo [${photo.id}]`,
-            body: `Reporting Photo [${
-              photo.id
-            }]\n\nSent using Cam on ${dayjs().format('MMMM D, YYYY h:mmaZZ')}`
-          });
+          if (
+            !account ||
+            account.toLowerCase() != photo.owner.address.toLowerCase()
+          ) {
+            MailComposer.composeAsync({
+              recipients: ['reports@internet.camera'],
+              subject: `Reporting Photo [${photo.id}]`,
+              body: `Reporting Photo [${
+                photo.id
+              }]\n\nSent using Cam on ${dayjs().format('MMMM D, YYYY h:mmaZZ')}`
+            });
+          } else {
+            const jsonRpcProvider = getJsonRpcProvider();
+            const typedData = await getBurnPhotoTypedData(
+              photo.id,
+              account,
+              80001,
+              jsonRpcProvider
+            );
+            const signTypedData = useWallet.getState().signTypedData;
+            if (!signTypedData) throw new Error('Wallet not ready to sign!');
+            setTimeout(() => {
+              setOpenedWallet(true);
+            }, 500);
+            const signature = await signTypedData(JSON.stringify(typedData));
+            setSignature(signature);
+            let response: { hash: string };
+            do {
+              response = await fetch('https://tx.internet.camera/api/forward', {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                  data: typedData,
+                  signature
+                })
+              })
+                .then(res => res.json())
+                .catch(err => console.log(err));
+              if (!response) await new Promise(r => setTimeout(r, 500));
+            } while (response == undefined);
+            useWallet.getState().addPendingTransaction(response.hash);
+            navigation.navigate('Activity');
+          }
         }
       }
     );
@@ -109,35 +160,53 @@ const PhotoPreview = ({
             state.pressed ? styles.pressed : null
           ]}
         >
-          <Text style={styles.filmName}>{photo.film.symbol}</Text>
+          <Text
+            style={[
+              styles.filmName,
+              {
+                color: `hsl(${
+                  parseInt(photo.film.id.slice(-9) || '0', 16) % 360
+                }, 100%, 70%)`
+              }
+            ]}
+          >
+            ${photo.film.symbol}
+          </Text>
           <Text style={styles.filmNumber}>
             № {parseInt(`${photo.filmIndex}`) + 1} of{' '}
             {parseInt(formatEther(photo.film.totalSupply)).toLocaleString()}{' '}
           </Text>
         </Pressable>
       )}
-      <Pressable
-        onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          navigation.navigate('Photo', {
-            tokenId: photo.id
-          });
-        }}
-        onLongPress={onMenuClick}
-        style={state => [state.pressed ? styles.pressed : null]}
-      >
-        <CachedImage
-          source={{
-            uri: photo.image.replace(
-              'ipfs://',
-              'https://ipfs-cdn.internet.camera/ipfs/'
-            )
+      {photo.owner.address.toLowerCase() !=
+      '0x0000000000000000000000000000000000000000' ? (
+        <Pressable
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            navigation.navigate('Photo', {
+              tokenId: photo.id
+            });
           }}
-          width={photo.width}
-          height={photo.height}
-          style={{ aspectRatio: photo.width / photo.height }}
+          onLongPress={onMenuClick}
+          style={state => [state.pressed ? styles.pressed : null]}
+        >
+          <CachedImage
+            source={{
+              uri: photo.image.replace(
+                'ipfs://',
+                'https://ipfs-cdn.internet.camera/ipfs/'
+              )
+            }}
+            width={photo.width}
+            height={photo.height}
+            style={{ aspectRatio: photo.width / photo.height }}
+          />
+        </Pressable>
+      ) : (
+        <View
+          style={[styles.noPhoto, { aspectRatio: photo.width / photo.height }]}
         />
-      </Pressable>
+      )}
       {!hideFooter && (
         <View style={styles.meta}>
           <Text style={styles.date}>
@@ -184,6 +253,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingVertical: 10
   },
+  noPhoto: { width: '100%', backgroundColor: '#111' },
   filmName: {
     fontFamily: 'HelveticaNowMicroBold',
     color: 'white',
@@ -201,7 +271,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 60,
-    borderBottomColor: '#111',
+    borderBottomColor: '#222',
     borderBottomWidth: 1
   },
   date: {

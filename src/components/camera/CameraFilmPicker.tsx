@@ -46,16 +46,32 @@ const CameraFilmPicker = ({
           }}
           style={[
             styles.filmPreview,
+            {
+              borderColor: `hsl(${
+                parseInt(data.item.film.filmAddress.slice(-9) || '0', 16) % 360
+              }, 100%, 70%)`
+            },
             selectedFilmAddress === data.item.film.id
               ? styles.selectedFilmPreview
               : {}
           ]}
         >
-          <Text style={styles.filmSymbol}>
-            {data.item.film.symbol} – № {parseInt(data.item.film.used) + 1}
+          <Text
+            style={[
+              styles.filmSymbol,
+              {
+                color: `hsl(${
+                  parseInt(data.item.film.filmAddress.slice(-9) || '0', 16) %
+                  360
+                }, 100%, 70%)`
+              }
+            ]}
+          >
+            ${data.item.film.symbol}
           </Text>
           <Text style={styles.amount}>
-            {parseInt(formatEther(data.item.amount)).toLocaleString()} in wallet
+            № {parseInt(data.item.film.used) + 1} – You have{' '}
+            {parseInt(formatEther(data.item.amount)).toLocaleString()} film
           </Text>
         </Pressable>
       )}
@@ -87,7 +103,6 @@ const styles = StyleSheet.create({
     opacity: 0.25
   },
   selectedFilmPreview: {
-    borderColor: 'hsl(250, 100%, 50%)',
     borderWidth: 1,
     opacity: 1
   },

@@ -76,12 +76,16 @@ export default function App() {
               name="FilmRollStack"
               component={FilmRollStack}
               options={({ route }) => ({
-                title: route.params?.title || 'Cam',
+                title: `$${route.params?.title}` || 'Cam',
+                headerTitleStyle: {
+                  color: `hsl(${
+                    parseInt(route.params?.filmAddress.slice(-9) || '0', 16) %
+                    360
+                  }, 100%, 70%)`
+                },
                 headerTintColor: 'white',
                 headerBackTitleVisible: false,
-                headerTitleStyle: {
-                  fontFamily: 'HelveticaNowBold'
-                },
+
                 headerStyle: {
                   backgroundColor: 'rgb(5,5,5)'
                 }

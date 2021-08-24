@@ -36,8 +36,22 @@ const FilmPreview = ({
       }}
     >
       <View>
-        <Text style={styles.name}>{film.name}</Text>
-        <Text style={styles.symbol}>{film.symbol}</Text>
+        <Text numberOfLines={1} style={[styles.name]}>
+          {film.name}
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={[
+            styles.symbol,
+            {
+              color: `hsl(${
+                parseInt(film.filmAddress.slice(-9) || '0', 16) % 360
+              }, 100%, 70%)`
+            }
+          ]}
+        >
+          ${film.symbol}
+        </Text>
 
         {amount ? (
           <Text style={styles.message}>

@@ -1,4 +1,4 @@
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef } from 'react';
 import {
   View,
@@ -6,7 +6,8 @@ import {
   Pressable,
   Text,
   FlatList,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 import useWallet from '../../features/useWallet';
 import AddressOrNamePreview from '../previews/AddressOrNamePreview';
@@ -40,10 +41,27 @@ const WalletScreen = () => {
           <Pressable
             onPress={async () => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              do {
-                useWallet.getState().disconnect?.();
-                await new Promise(resolve => setTimeout(resolve, 100));
-              } while (useWallet.getState().account != null);
+              Alert.alert(
+                'Disconnect Wallet',
+                'Are you sure you want to log out?',
+                [
+                  {
+                    text: 'Log out',
+                    onPress: async () => {
+                      do {
+                        useWallet.getState().disconnect?.();
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                      } while (useWallet.getState().account != null);
+                    },
+                    style: 'destructive'
+                  },
+                  {
+                    text: 'Cancel',
+                    style: 'cancel',
+                    onPress: () => {}
+                  }
+                ]
+              );
             }}
           >
             <MaterialCommunityIcons name="exit-to-app" size={24} color="#ccc" />
@@ -51,10 +69,6 @@ const WalletScreen = () => {
         ) : null
     });
   }, [account]);
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    useWallet.getState().refreshManager?.();
-  }, [isFocused, account]);
   const { refreshControl } = useRefreshing(refresh);
   const ref = useRef<FlatList>(null);
   useScrollToTop(ref);
